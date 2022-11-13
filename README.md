@@ -1,2 +1,2 @@
-# cs2-gta6
+# GTA 6
 CS II GTA 6 Project
