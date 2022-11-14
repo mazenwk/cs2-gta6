@@ -24,9 +24,9 @@ namespace Resources {
 }
 
 namespace Constants {
-    const int SCREEN_WIDTH = 600;
-    const int SCREEN_HEIGHT = 600;
-    const int BOARD_SIZE = 10;
+    const int SCREEN_WIDTH = 800;
+    const int SCREEN_HEIGHT = 800;
+    const int BOARD_SIZE = 15;
     const int TILE_SCALE = 50;
 }
 

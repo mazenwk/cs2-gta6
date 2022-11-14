@@ -25,13 +25,13 @@ int main(int argc, char *argv[])
     QBrush brush(Qt::black);
     view.setBackgroundBrush(brush);
 
-    QFile file(Resources::LEVELS_DIR + "level1.txt");
+    QFile file(Resources::LEVELS_DIR + "123.txt");
     file.open(QIODevice::ReadOnly);
     QTextStream stream(&file);
-    int boardData[10][10];
+    int boardData[15][15];
     QString temp;
-    for (int i = 0; i < 10; i++)
-       for (int j = 0; j < 10; j++)
+    for (int i = 0; i < 15; i++)
+       for (int j = 0; j < 15; j++)
        {
            stream >> temp;
            boardData[i][j] = temp.toInt();
@@ -53,9 +53,9 @@ int main(int argc, char *argv[])
     QList<Enemy*> enemies;
     QList<Bullet*> bullets;
 
-    QGraphicsPixmapItem boardItems[10][10];
-    for (int i = 0; i < 10; i++)
-       for (int j = 0; j < 10; j++)
+    QGraphicsPixmapItem boardItems[15][15];
+    for (int i = 0; i < 15; i++)
+       for (int j = 0; j < 15; j++)
        {
            // Set Image
            if (boardData[i][j] < 0)

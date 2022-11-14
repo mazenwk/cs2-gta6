@@ -1,7 +1,7 @@
 #include "constants.h"
 #include "player.h"
 
-Player::Player(int boardData[10][10])
+Player::Player(int boardData[15][15])
 {
     // Set Image
     QPixmap image(Resources::ENTITIES_DIR + "cj.png");
@@ -15,8 +15,8 @@ Player::Player(int boardData[10][10])
     setPos(50 + column * 50, 50 + row * 50);
 
     // Set data Array
-    for (int i = 0; i < 10; i++)
-        for (int j = 0; j < 10; j++)
+    for (int i = 0; i < 15; i++)
+        for (int j = 0; j < 15; j++)
             data[i][j] = boardData[i][j];
 }
 
