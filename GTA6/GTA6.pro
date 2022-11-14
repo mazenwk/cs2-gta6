@@ -9,10 +9,18 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    main.cpp
+    bullet.cpp \
+    enemy.cpp \
+    main.cpp \
+    player.cpp \
+    powerpellet.cpp
 
 HEADERS += \
-    constants.h
+    bullet.h \
+    constants.h \
+    enemy.h \
+    player.h \
+    powerpellet.h
 
 FORMS +=
 
