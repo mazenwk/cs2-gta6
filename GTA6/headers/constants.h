@@ -23,10 +23,25 @@ namespace Resources {
     const QString ENTITIES_DIR = QDir::currentPath() + "\\resources\\entities\\";
 }
 
-namespace Constants {
+namespace EnvironmentConstants {
+    /**
+     * @brief The screen width
+     */
     const int SCREEN_WIDTH = 800;
+
+    /**
+     * @brief The screen height
+     */
     const int SCREEN_HEIGHT = 800;
+
+    /**
+     * @brief The board size, assuming it is always a square
+     */
     const int BOARD_SIZE = 15;
+
+    /**
+     * @brief The tile scale; height & width
+     */
     const int TILE_SCALE = 50;
 }
 
