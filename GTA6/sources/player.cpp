@@ -4,6 +4,7 @@
 
 #include <QGraphicsScene>
 
+#include <headers/bullet.h>
 #include <headers/enemy.h>
 
 Player::Player(int boardData[EnvironmentConstants::BOARD_SIZE][EnvironmentConstants::BOARD_SIZE])
@@ -25,12 +26,6 @@ Player::Player(int boardData[EnvironmentConstants::BOARD_SIZE][EnvironmentConsta
             data[i][j] = boardData[i][j];
 }
 
-void Player::damage()
-{
-    if (!isGodMode) {
-
-    }
-}
 void Player::keyPressEvent(QKeyEvent* event)
 {
     if ((event->key() == Qt::Key_W||event->key() == Qt::Key_Up) && data[row - 1][column] >= 0)
@@ -59,6 +54,20 @@ void Player::keyPressEvent(QKeyEvent* event)
             scene()->removeItem(items[i]);
         } else if (str_type(*items[i]) == typeid(Enemy).name()) {
             damage();
+        } else if (str_type(*items[i]) == typeid(Bullet).name()) {
+            attack();
+            scene()->removeItem(items[i]);
         }
     }
+}
+
+void Player::damage()
+{
+    if (!isGodMode) {
+        // Get damaged
+    }
+}
+
+void Player::attack() {
+    // Ecledian Distance
 }
