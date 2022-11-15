@@ -45,4 +45,6 @@ namespace EnvironmentConstants {
     const int TILE_SCALE = 50;
 }
 
+template <typename T> char const* str_type( T const& obj ) { return typeid( obj ).name(); }
+
 #endif // CONSTANTS_H

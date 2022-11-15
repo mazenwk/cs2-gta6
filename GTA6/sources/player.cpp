@@ -4,6 +4,8 @@
 
 #include <QGraphicsScene>
 
+#include <headers/enemy.h>
+
 Player::Player(int boardData[EnvironmentConstants::BOARD_SIZE][EnvironmentConstants::BOARD_SIZE])
 {
     // Set Image
@@ -52,9 +54,11 @@ void Player::keyPressEvent(QKeyEvent* event)
     QList<QGraphicsItem*> items = collidingItems();
     for (int i = 0; i < items.size(); i++)
     {
-        if (typeid(*items[i]) == typeid(PowerPellet)) {
+        if (str_type(*items[i]) == typeid(PowerPellet).name()) {
             isGodMode = true;
             scene()->removeItem(items[i]);
+        } else if (str_type(*items[i]) == typeid(Enemy).name()) {
+            damage();
         }
     }
 }
