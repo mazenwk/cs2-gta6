@@ -7,7 +7,7 @@
 #include <headers/bullet.h>
 #include <headers/enemy.h>
 
-Player::Player(int boardData[Environment::BOARD_HEIGHT][Environment::BOARD_WIDTH])
+Player::Player(int x, int y, int boardData[Environment::BOARD_HEIGHT][Environment::BOARD_WIDTH])
 {
     // Set Image
     QPixmap image(Resources::ENTITIES_DIR + "cj.png");
@@ -16,8 +16,8 @@ Player::Player(int boardData[Environment::BOARD_HEIGHT][Environment::BOARD_WIDTH
     setPixmap(image);
 
     // Set Position
-    row = 1;
-    column = 1;
+    row = x;
+    column = y;
     setPos(Environment::TILE_SCALE + column * Environment::TILE_SCALE, Environment::TILE_SCALE + row * Environment::TILE_SCALE);
 
     // Set data Array

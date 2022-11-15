@@ -9,7 +9,7 @@ class Player : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 public:
-    Player(int boardData[15][15]);
+    Player(int x, int y, int boardData[15][15]);
     int pHealth = 3;
     bool isGodMode = false;
 public slots:

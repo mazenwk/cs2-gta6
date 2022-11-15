@@ -75,7 +75,7 @@ void Game::loadResources()
     }
 
     loadCollectibles();
-    loadPlayer();
+    loadPlayer(1, 1);
     loadEnemies();
 }
 
@@ -109,9 +109,9 @@ void Game::loadCollectibles()
     }
 }
 
-void Game::loadPlayer()
+void Game::loadPlayer(int x, int y)
 {
-    player = new Player(boardData);
+    player = new Player(y, x, boardData);
     scene.addItem(player);
 
     player->setFlag(QGraphicsPixmapItem::ItemIsFocusable);

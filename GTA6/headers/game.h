@@ -34,7 +34,7 @@ private:
     Player* player;
 
     void loadCollectibles();
-    void loadPlayer();
+    void loadPlayer(int x, int y);
     void loadEnemies();
 };
 
