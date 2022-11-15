@@ -10,7 +10,7 @@
 
 Game::Game(QString gameTitle)
 {
-    view.setFixedSize(EnvironmentConstants::SCREEN_WIDTH, EnvironmentConstants::SCREEN_HEIGHT);
+    view.setFixedSize(Environment::SCREEN_WIDTH, Environment::SCREEN_HEIGHT);
     view.setWindowTitle(gameTitle);
     QBrush brush(Qt::black);
     view.setBackgroundBrush(brush);
@@ -22,8 +22,8 @@ void Game::loadLevel(QString levelFileName)
     file.open(QIODevice::ReadOnly);
     QTextStream stream(&file);
     QString temp;
-    for (int i = 0; i < EnvironmentConstants::BOARD_SIZE; i++) {
-        for (int j = 0; j < EnvironmentConstants::BOARD_SIZE; j++)
+    for (int i = 0; i < Environment::BOARD_HEIGHT; i++) {
+        for (int j = 0; j < Environment::BOARD_WIDTH; j++)
         {
             stream >> temp;
             boardData[i][j] = temp.toInt();
@@ -35,20 +35,20 @@ void Game::loadResources()
 {
     // TODO: Convert to separate function
     QPixmap grassImage(Resources::TILES_DIR + "Grass.png");
-    grassImage = grassImage.scaledToWidth(EnvironmentConstants::TILE_SCALE);
-    grassImage = grassImage.scaledToHeight(EnvironmentConstants::TILE_SCALE);
+    grassImage = grassImage.scaledToWidth(Environment::TILE_SCALE);
+    grassImage = grassImage.scaledToHeight(Environment::TILE_SCALE);
 
     QPixmap bricksImage(Resources::TILES_DIR + "Lava.png");
-    bricksImage = bricksImage.scaledToWidth(EnvironmentConstants::TILE_SCALE);
-    bricksImage = bricksImage.scaledToHeight(EnvironmentConstants::TILE_SCALE);
+    bricksImage = bricksImage.scaledToWidth(Environment::TILE_SCALE);
+    bricksImage = bricksImage.scaledToHeight(Environment::TILE_SCALE);
 
     QPixmap PowerPelletImage(Resources::TILES_DIR + "Ice Creams.png");
-    bricksImage = bricksImage.scaledToWidth(EnvironmentConstants::TILE_SCALE);
-    bricksImage = bricksImage.scaledToHeight(EnvironmentConstants::TILE_SCALE);
+    bricksImage = bricksImage.scaledToWidth(Environment::TILE_SCALE);
+    bricksImage = bricksImage.scaledToHeight(Environment::TILE_SCALE);
 
     // Add to the board
-    for (int i = 0; i < EnvironmentConstants::BOARD_SIZE; i++) {
-        for (int j = 0; j < EnvironmentConstants::BOARD_SIZE; j++)
+    for (int i = 0; i < Environment::BOARD_HEIGHT; i++) {
+        for (int j = 0; j < Environment::BOARD_WIDTH; j++)
         {
             // Set Image
             if (boardData[i][j] < 0) {
@@ -56,19 +56,19 @@ void Game::loadResources()
             }
             else {
                 boardItems[i][j].setPixmap(grassImage);
-                if (boardData[i][j] == 99) { // Power Pallet
+                if (boardData[i][j] == Environment::POWERPELLET_CODE) {
                     powerPellets.push_back(new PowerPellet(j, i));
                 }
-                else if (boardData[i][j] == 98) { // Enemy
+                else if (boardData[i][j] == Environment::ENEMY_CODE) {
                     enemies.push_back(new Enemy(j, i));
                 }
-                else if (boardData[i][j] == 97) {
+                else if (boardData[i][j] == Environment::BULLET_CODE) {
                     bullets.push_back(new Bullet(j, i));
                 }
             }
 
             // Set Position
-            boardItems[i][j].setPos(EnvironmentConstants::TILE_SCALE + j * EnvironmentConstants::TILE_SCALE, EnvironmentConstants::TILE_SCALE + i * EnvironmentConstants::TILE_SCALE);
+            boardItems[i][j].setPos(Environment::TILE_SCALE + j * Environment::TILE_SCALE, Environment::TILE_SCALE + i * Environment::TILE_SCALE);
 
             scene.addItem(&boardItems[i][j]);
         }

@@ -24,8 +24,8 @@ private:
     QGraphicsView view;
     QGraphicsScene scene;
 
-    int boardData[EnvironmentConstants::BOARD_SIZE][EnvironmentConstants::BOARD_SIZE];
-    QGraphicsPixmapItem boardItems[EnvironmentConstants::BOARD_SIZE][EnvironmentConstants::BOARD_SIZE];
+    int boardData[Environment::BOARD_HEIGHT][Environment::BOARD_WIDTH];
+    QGraphicsPixmapItem boardItems[Environment::BOARD_HEIGHT][Environment::BOARD_WIDTH];
 
     QList<PowerPellet*> powerPellets;
     QList<Enemy*> enemies;

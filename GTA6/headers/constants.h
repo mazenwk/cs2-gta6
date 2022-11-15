@@ -23,7 +23,7 @@ namespace Resources {
     const QString ENTITIES_DIR = QDir::currentPath() + "\\resources\\entities\\";
 }
 
-namespace EnvironmentConstants {
+namespace Environment {
     /**
      * @brief The screen width
      */
@@ -35,14 +35,23 @@ namespace EnvironmentConstants {
     const int SCREEN_HEIGHT = 800;
 
     /**
-     * @brief The board size, assuming it is always a square
+     * @brief The board width
      */
-    const int BOARD_SIZE = 15;
+    const int BOARD_WIDTH = 15;
+
+    /**
+     * @brief The board height
+     */
+    const int BOARD_HEIGHT = 12;
 
     /**
      * @brief The tile scale; height & width
      */
     const int TILE_SCALE = 50;
+
+    const int POWERPELLET_CODE = 99;
+    const int ENEMY_CODE = 98;
+    const int BULLET_CODE = 97;
 }
 
 template <typename T> char const* str_type( T const& obj ) { return typeid( obj ).name(); }

@@ -7,22 +7,22 @@
 #include <headers/bullet.h>
 #include <headers/enemy.h>
 
-Player::Player(int boardData[EnvironmentConstants::BOARD_SIZE][EnvironmentConstants::BOARD_SIZE])
+Player::Player(int boardData[Environment::BOARD_HEIGHT][Environment::BOARD_WIDTH])
 {
     // Set Image
     QPixmap image(Resources::ENTITIES_DIR + "cj.png");
-    image = image.scaledToWidth(EnvironmentConstants::TILE_SCALE);
-    image = image.scaledToHeight(EnvironmentConstants::TILE_SCALE);
+    image = image.scaledToWidth(Environment::TILE_SCALE);
+    image = image.scaledToHeight(Environment::TILE_SCALE);
     setPixmap(image);
 
     // Set Position
     row = 1;
     column = 1;
-    setPos(EnvironmentConstants::TILE_SCALE + column * EnvironmentConstants::TILE_SCALE, EnvironmentConstants::TILE_SCALE + row * EnvironmentConstants::TILE_SCALE);
+    setPos(Environment::TILE_SCALE + column * Environment::TILE_SCALE, Environment::TILE_SCALE + row * Environment::TILE_SCALE);
 
     // Set data Array
-    for (int i = 0; i < EnvironmentConstants::BOARD_SIZE; i++)
-        for (int j = 0; j < EnvironmentConstants::BOARD_SIZE; j++)
+    for (int i = 0; i < Environment::BOARD_HEIGHT; i++)
+        for (int j = 0; j < Environment::BOARD_WIDTH; j++)
             data[i][j] = boardData[i][j];
 }
 
@@ -44,7 +44,7 @@ void Player::keyPressEvent(QKeyEvent* event)
     {
         column--;
     }
-    setPos(EnvironmentConstants::TILE_SCALE + column * EnvironmentConstants::TILE_SCALE, EnvironmentConstants::TILE_SCALE + row * EnvironmentConstants::TILE_SCALE);
+    setPos(Environment::TILE_SCALE + column * Environment::TILE_SCALE, Environment::TILE_SCALE + row * Environment::TILE_SCALE);
 
     QList<QGraphicsItem*> items = collidingItems();
     for (int i = 0; i < items.size(); i++)

@@ -5,10 +5,10 @@ Bullet::Bullet(int x, int y)
 {
     // Set Image
     QPixmap image(Resources::TILES_DIR + "shuriken.png");
-    image = image.scaledToWidth(EnvironmentConstants::TILE_SCALE);
-    image = image.scaledToHeight(EnvironmentConstants::TILE_SCALE);
+    image = image.scaledToWidth(Environment::TILE_SCALE);
+    image = image.scaledToHeight(Environment::TILE_SCALE);
     setPixmap(image);
 
     // Set Position
-    setPos(EnvironmentConstants::TILE_SCALE + x * EnvironmentConstants::TILE_SCALE, EnvironmentConstants::TILE_SCALE + y * EnvironmentConstants::TILE_SCALE);
+    setPos(Environment::TILE_SCALE + x * Environment::TILE_SCALE, Environment::TILE_SCALE + y * Environment::TILE_SCALE);
 }
