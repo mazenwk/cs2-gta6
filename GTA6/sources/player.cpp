@@ -64,10 +64,19 @@ void Player::keyPressEvent(QKeyEvent* event)
 void Player::damage()
 {
     if (!isGodMode) {
-        // Get damaged
+        health--;
+        if (health <= 0) {
+            die();
+        }
     }
 }
 
-void Player::attack() {
-    // Ecledian Distance
+void Player::die()
+{
+    // Game over
+}
+
+void Player::attack()
+{
+   // Euclidean distance for closest enemy
 }

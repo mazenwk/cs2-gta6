@@ -48,13 +48,11 @@ void Game::loadResources()
 
     // Add to the board
     for (int i = 0; i < Environment::BOARD_HEIGHT; i++) {
-        for (int j = 0; j < Environment::BOARD_WIDTH; j++)
-        {
+        for (int j = 0; j < Environment::BOARD_WIDTH; j++) {
             // Set Image
             if (boardData[i][j] < 0) {
                 boardItems[i][j].setPixmap(bricksImage);
-            }
-            else {
+            } else {
                 boardItems[i][j].setPixmap(grassImage);
                 if (boardData[i][j] == Environment::POWERPELLET_CODE) {
                     powerPellets.push_back(new PowerPellet(j, i));
