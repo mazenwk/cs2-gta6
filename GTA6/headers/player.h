@@ -51,6 +51,11 @@ private:
     int data[15][15];
 
     /**
+     * @brief Hanldes the current collisions with the player
+     */
+    void handleCollisions();
+
+    /**
      * @brief Damages the player by one heart if not in god mode
      */
     void damage();

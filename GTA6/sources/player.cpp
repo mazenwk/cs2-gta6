@@ -28,6 +28,7 @@ Player::Player(int x, int y, int boardData[Environment::BOARD_HEIGHT][Environmen
 
 void Player::keyPressEvent(QKeyEvent* event)
 {
+    // Movement
     if ((event->key() == Qt::Key_W||event->key() == Qt::Key_Up) && data[row - 1][column] >= 0)
     {
         row--;
@@ -44,8 +45,16 @@ void Player::keyPressEvent(QKeyEvent* event)
     {
         column--;
     }
+
+    // Set new position
     setPos(Environment::TILE_SCALE + column * Environment::TILE_SCALE, Environment::TILE_SCALE + row * Environment::TILE_SCALE);
 
+    // Handle current collisions
+    handleCollisions();
+}
+
+void Player::handleCollisions()
+{
     QList<QGraphicsItem*> items = collidingItems();
     for (int i = 0; i < items.size(); i++)
     {
@@ -63,6 +72,7 @@ void Player::keyPressEvent(QKeyEvent* event)
 
 void Player::damage()
 {
+    // TODO: turn off god mode
     if (!isGodMode) {
         health--;
         if (health <= 0) {
@@ -73,7 +83,8 @@ void Player::damage()
 
 void Player::die()
 {
-    // Game over
+    // Game over screen
+    scene()->removeItem(this);
 }
 
 void Player::attack()
