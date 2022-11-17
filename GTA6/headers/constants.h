@@ -49,11 +49,28 @@ namespace Environment {
      */
     const int TILE_SCALE = 50;
 
+    /**
+     * @brief The powerpellet number code in the text file
+     */
     const int POWERPELLET_CODE = 99;
+
+    /**
+     * @brief The enemy number code in the text file
+     */
     const int ENEMY_CODE = 98;
+
+    /**
+     * @brief The bullet number code in the text file
+     */
     const int BULLET_CODE = 97;
 }
 
+/**
+ * @brief Gets the string type name of the given object.
+ * Used to avoid unintended side effects of using typeid(obj)
+ * @param obj The object to get the string type name of
+ * @return String type name of the given object
+ */
 template <typename T> char const* str_type( T const& obj ) { return typeid( obj ).name(); }
 
 #endif // CONSTANTS_H
