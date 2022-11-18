@@ -14,6 +14,9 @@ public:
      * @param y The y position on the board
      */
     Enemy(int x, int y);
+
+    int x;
+    int y;
 };
 
 #endif // ENEMY_H

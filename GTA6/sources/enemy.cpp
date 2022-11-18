@@ -13,4 +13,7 @@ Enemy::Enemy(int x, int y)
 
     // Set Position
     setPos(Environment::TILE_SCALE + x * Environment::TILE_SCALE, Environment::TILE_SCALE + y * Environment::TILE_SCALE);
+
+    this->x = x;
+    this->y = y;
 }

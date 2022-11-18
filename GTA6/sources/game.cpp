@@ -9,6 +9,9 @@
 #include <QString>
 #include <QCoreApplication>
 
+#include <stdlib.h>
+#include <time.h>
+
 Game::Game(QString gameTitle)
 {
     view.setFixedSize(Environment::SCREEN_WIDTH, Environment::SCREEN_HEIGHT);
@@ -88,6 +91,32 @@ void Game::watch()
 {
     while(player->health != 0) {
         delay(1);
+
+        for (int i = 0; i < enemies.size(); i++) {
+            srand((unsigned) time(NULL));
+            int randmov;
+
+            randmov = (1+rand()%4);
+            switch(randmov)
+            {
+                case 1: //move to the right
+                enemies[i]->x++;
+                break;
+
+                case 2: //move to the left
+                enemies[i]->x--;
+                break;
+
+                case 3: //move up
+                enemies[i]->y++;
+                break;
+
+                case 4: //move down
+                enemies[i]->y--;
+                break;
+            }
+            enemies[i]->setPos(Environment::TILE_SCALE + enemies[i]->x * Environment::TILE_SCALE, Environment::TILE_SCALE + enemies[i]->y * Environment::TILE_SCALE);
+        }
     }
 
     if (player->health <= 0) {
@@ -168,7 +197,6 @@ void Game::displayGameOverWindow(QString textToDisplay)
 //    scene->addItem(quit);
 //    connect(quit,SIGNAL(clicked()),this,SLOT(close()));
 
-    // create text annoucning winner
     QGraphicsTextItem* overText = new QGraphicsTextItem(textToDisplay);
     QFont* font = new QFont;
     overText->setPos(300, 300);
