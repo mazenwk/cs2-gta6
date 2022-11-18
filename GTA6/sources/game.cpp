@@ -93,28 +93,40 @@ void Game::watch()
         delay(1);
 
         for (int i = 0; i < enemies.size(); i++) {
+            int row = enemies[i]->x;
+            int column = enemies[i]->y;
+
             srand((unsigned) time(NULL));
             int randmov;
 
-            randmov = (1+rand()%4);
+            randmov = (1+(rand() * i)%4);
             switch(randmov)
             {
                 case 1: //move to the right
-                enemies[i]->x++;
+                if (boardData[row + 1][column] >= 0) {
+                    enemies[i]->x++;
+                }
                 break;
 
                 case 2: //move to the left
-                enemies[i]->x--;
+                if (boardData[row - 1][column] >= 0) {
+                    enemies[i]->x--;
+                }
                 break;
 
                 case 3: //move up
-                enemies[i]->y++;
+                if (boardData[row][column + 1] >= 0) {
+                    enemies[i]->y++;
+                }
                 break;
 
                 case 4: //move down
-                enemies[i]->y--;
+                if (boardData[row][column - 1] >= 0) {
+                    enemies[i]->y--;
+                }
                 break;
             }
+
             enemies[i]->setPos(Environment::TILE_SCALE + enemies[i]->x * Environment::TILE_SCALE, Environment::TILE_SCALE + enemies[i]->y * Environment::TILE_SCALE);
         }
     }
