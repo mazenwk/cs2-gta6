@@ -21,16 +21,16 @@ public:
     /**
      * @brief The player health
      */
-    int health = 3;
+    int health{ 3 };
 
     /**
      * @brief Whether the player is currently in god mode or not.
      * Player does not receive damage when true
      */
-    bool isGodMode = false;
+    bool isGodMode{ false };
 public slots:
     /**
-     * @brief Controls the player movement by responding to user input
+     * @brief Controls the player movement by responding to user input and calls handleCollisions()
      * @param event The keypress event
      */
     void keyPressEvent(QKeyEvent* event);
@@ -69,6 +69,9 @@ private:
      * @brief Attacks the nearest enemy
      */
     void attack();
+
+
+    void delay(int n);
 };
 
 #endif // PLAYER_H

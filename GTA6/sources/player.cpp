@@ -29,19 +29,19 @@ Player::Player(int x, int y, int boardData[Environment::BOARD_HEIGHT][Environmen
 void Player::keyPressEvent(QKeyEvent* event)
 {
     // Movement
-    if ((event->key() == Qt::Key_W||event->key() == Qt::Key_Up) && data[row - 1][column] >= 0)
+    if ((event->key() == Qt::Key_W|| event->key() == Qt::Key_Up) && data[row - 1][column] >= 0)
     {
         row--;
     }
-    else if ((event->key() == Qt::Key_Down||event->key() == Qt::Key_S) && data[row + 1][column] >= 0)
+    else if ((event->key() == Qt::Key_Down|| event->key() == Qt::Key_S) && data[row + 1][column] >= 0)
     {
         row++;
     }
-    else if ((event->key() == Qt::Key_Right||event->key() == Qt::Key_D) && data[row][column + 1] >= 0)
+    else if ((event->key() == Qt::Key_Right|| event->key() == Qt::Key_D) && data[row][column + 1] >= 0)
     {
         column++;
     }
-    else if ((event->key() == Qt::Key_Left||event->key() == Qt::Key_A) && data[row][column - 1] >= 0)
+    else if ((event->key() == Qt::Key_Left|| event->key() == Qt::Key_A) && data[row][column - 1] >= 0)
     {
         column--;
     }
@@ -58,14 +58,17 @@ void Player::handleCollisions()
     QList<QGraphicsItem*> items = collidingItems();
     for (int i = 0; i < items.size(); i++)
     {
-        if (str_type(*items[i]) == typeid(PowerPellet).name()) {
-            isGodMode = true;
+        if (str_type(*items[i]) == typeid(Bullet).name()) {
+            attack();
             scene()->removeItem(items[i]);
         } else if (str_type(*items[i]) == typeid(Enemy).name()) {
             damage();
-        } else if (str_type(*items[i]) == typeid(Bullet).name()) {
-            attack();
+            // TODO: Reset player & enemy positions
+        } else if (str_type(*items[i]) == typeid(PowerPellet).name()) {
+            isGodMode = true;
             scene()->removeItem(items[i]);
+            delay(5);
+            isGodMode = false;
         }
     }
 }
@@ -89,5 +92,12 @@ void Player::die()
 
 void Player::attack()
 {
-   // Euclidean distance for closest enemy
+    // Euclidean distance for closest enemy
+}
+
+void Player::delay(int n)
+{
+    QTime dieTime= QTime::currentTime().addSecs(n);
+    while (QTime::currentTime() < dieTime)
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }
