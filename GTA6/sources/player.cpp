@@ -1,11 +1,12 @@
 #include "headers/constants.h"
 #include "headers/player.h"
-#include <headers/powerpellet.h>
+#include "headers/powerpellet.h"
+#include "headers/bullet.h"
+#include "headers/enemy.h"
 
 #include <QGraphicsScene>
-
-#include <headers/bullet.h>
-#include <headers/enemy.h>
+#include <QCoreApplication>
+#include <QWidget>
 
 Player::Player(int x, int y, int boardData[Environment::BOARD_HEIGHT][Environment::BOARD_WIDTH])
 {
@@ -88,6 +89,9 @@ void Player::die()
 {
     // Game over screen
     scene()->removeItem(this);
+//    for (int i = 0; i < scene()->items().size(); i++) {
+//       scene()->items()[i]->setEnabled(false);
+//    }
 }
 
 void Player::attack()

@@ -12,8 +12,7 @@
 #include <QGraphicsView>
 #include <QString>
 
-class Game
-{
+class Game {
 public:
     /**
      * @brief Default parameterized constructor.
@@ -37,6 +36,8 @@ public:
      * @brief Shows the game view and its scene as a window
      */
     void show();
+
+    void watch();
 
     ~Game();
 private:
@@ -94,6 +95,11 @@ private:
      * @brief Loads the enemies into the scene
      */
     void loadEnemies();
+
+    // TODO: Only one delay function
+    void delay(int n);
+
+    void displayGameOverWindow(QString textToDisplay);
 };
 
 #endif // GAME_H

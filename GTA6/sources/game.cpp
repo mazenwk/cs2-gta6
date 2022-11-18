@@ -7,6 +7,7 @@
 #include "headers/powerpellet.h"
 
 #include <QString>
+#include <QCoreApplication>
 
 Game::Game(QString gameTitle)
 {
@@ -83,6 +84,18 @@ void Game::show()
     view.show();
 }
 
+void Game::watch()
+{
+    while(player->health != 0) {
+        delay(1);
+    }
+
+    if (player->health <= 0) {
+        displayGameOverWindow("GAME OVER!");
+    }
+
+}
+
 Game::~Game()
 {
     delete player;
@@ -121,4 +134,47 @@ void Game::loadEnemies()
     for (int i = 0; i < enemies.size(); i++) {
         scene.addItem(enemies[i]);
     }
+}
+
+void Game::delay(int n)
+{
+    QTime dieTime= QTime::currentTime().addSecs(n);
+    while (QTime::currentTime() < dieTime)
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+}
+
+void Game::displayGameOverWindow(QString textToDisplay)
+{
+    // disable all scene items
+    for (size_t i = 0, n = scene.items().size(); i < n; i++){
+        scene.items()[i]->setEnabled(false);
+    }
+
+//    // pop up semi transparent panel
+//    drawPanel(0,0,1024,768,Qt::black,0.65);
+
+//    // draw panel
+//    drawPanel(312,184,400,400,Qt::lightGray,0.75);
+
+//    // create playAgain button
+//    Button* playAgain = new Button(QString("Play Again"));
+//    playAgain->setPos(410,300);
+//    scene->addItem(playAgain);
+//    connect(playAgain,SIGNAL(clicked()),this,SLOT(restartGame()));
+
+//    // create quit button
+//    Button* quit = new Button(QString("Quit"));
+//    quit->setPos(410,375);
+//    scene->addItem(quit);
+//    connect(quit,SIGNAL(clicked()),this,SLOT(close()));
+
+    // create text annoucning winner
+    QGraphicsTextItem* overText = new QGraphicsTextItem(textToDisplay);
+    QFont* font = new QFont;
+    overText->setPos(300, 300);
+    font->setPointSize(32);
+    font->setBold(true);
+    overText->setFont(*font);
+
+    scene.addItem(overText);
 }

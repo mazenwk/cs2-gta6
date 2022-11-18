@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
     game.loadLevel("123.txt");
     game.loadResources();
     game.show();
+    game.watch();
 
     return a.exec();
 }
