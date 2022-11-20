@@ -38,26 +38,47 @@ void Game::loadLevel(QString levelFileName)
 void Game::loadResources()
 {
     // TODO: Convert to separate function
-    QPixmap grassImage(Resources::TILES_DIR + "Grass.png");
-    grassImage = grassImage.scaledToWidth(Environment::TILE_SCALE);
-    grassImage = grassImage.scaledToHeight(Environment::TILE_SCALE);
+    QPixmap exteriorImage(Resources::TILES_DIR + "wall.jpg"); //interior
+    exteriorImage = exteriorImage.scaledToWidth(Environment::TILE_SCALE);
+    exteriorImage = exteriorImage.scaledToHeight(Environment::TILE_SCALE);
 
-    QPixmap bricksImage(Resources::TILES_DIR + "Lava.png");
-    bricksImage = bricksImage.scaledToWidth(Environment::TILE_SCALE);
-    bricksImage = bricksImage.scaledToHeight(Environment::TILE_SCALE);
+    QPixmap bricksImage2(Resources::TILES_DIR + "lava.png");
+    bricksImage2 = bricksImage2.scaledToWidth(Environment::TILE_SCALE);
+    bricksImage2 = bricksImage2.scaledToHeight(Environment::TILE_SCALE);
 
-    QPixmap PowerPelletImage(Resources::TILES_DIR + "Ice Creams.png");
-    bricksImage = bricksImage.scaledToWidth(Environment::TILE_SCALE);
-    bricksImage = bricksImage.scaledToHeight(Environment::TILE_SCALE);
+    QPixmap interiorImage(Resources::TILES_DIR + "interior.jpg");
+    interiorImage = interiorImage.scaledToWidth(Environment::TILE_SCALE);   //exterior
+    interiorImage = interiorImage.scaledToHeight(Environment::TILE_SCALE);
+
+    //--------------------------interior extras----------------------------------
+    QPixmap bookshelfImage(Resources::TILES_DIR + "bookshelf.jpg");
+    bookshelfImage = bookshelfImage.scaledToWidth(Environment::TILE_SCALE);
+    bookshelfImage = bookshelfImage.scaledToHeight(Environment::TILE_SCALE);
+
+    QPixmap boxImage(Resources::TILES_DIR + "box.jpg");
+    boxImage = boxImage.scaledToWidth(Environment::TILE_SCALE);
+    boxImage = boxImage.scaledToHeight(Environment::TILE_SCALE);
+    //---------------------------------------------------------------------------
+
+    QPixmap PowerPelletImage(Resources::TILES_DIR + "Ice Creams.png");  //powerpellet
+    interiorImage = interiorImage.scaledToWidth(Environment::TILE_SCALE);
+    interiorImage = interiorImage.scaledToHeight(Environment::TILE_SCALE);
 
     // Add to the board
     for (int i = 0; i < Environment::BOARD_HEIGHT; i++) {
         for (int j = 0; j < Environment::BOARD_WIDTH; j++) {
             // Set Image
-            if (boardData[i][j] < 0) {
-                boardItems[i][j].setPixmap(bricksImage);
-            } else {
-                boardItems[i][j].setPixmap(grassImage);
+            if (boardData[i][j] == -1)
+                boardItems[i][j].setPixmap(exteriorImage);
+                else if (boardData[i][j] == -2)
+                    boardItems[i][j].setPixmap(bookshelfImage);
+            else if (boardData[i][j] == -3)
+                boardItems[i][j].setPixmap(bookshelfImage);
+            else if (boardData[i][j] == -4)
+                boardItems[i][j].setPixmap(boxImage);
+
+            else {
+                boardItems[i][j].setPixmap(interiorImage);
                 if (boardData[i][j] == Environment::POWERPELLET_CODE) {
                     powerPellets.push_back(new PowerPellet(j, i));
                 }
