@@ -42,7 +42,7 @@ void Game::loadResources()
     exteriorImage = exteriorImage.scaledToWidth(Environment::TILE_SCALE);
     exteriorImage = exteriorImage.scaledToHeight(Environment::TILE_SCALE);
 
-    QPixmap bricksImage2(Resources::TILES_DIR + "lava.png");
+    QPixmap bricksImage2(Resources::TILES_DIR + "bricks.png");
     bricksImage2 = bricksImage2.scaledToWidth(Environment::TILE_SCALE);
     bricksImage2 = bricksImage2.scaledToHeight(Environment::TILE_SCALE);
 
@@ -80,6 +80,8 @@ void Game::loadResources()
                 boardItems[i][j].setPixmap(bookshelfImage);
             else if (boardData[i][j] == -4)
                 boardItems[i][j].setPixmap(boxImage);
+            else if (boardData[i][j] == -5)
+                boardItems[i][j].setPixmap(bricksImage2);
             else if (boardData[i][j] == 04)
                 boardItems[i][j].setPixmap(roomImage);
 
@@ -104,7 +106,7 @@ void Game::loadResources()
     }
 
     loadCollectibles();
-    loadPlayer(1, 1);
+    loadPlayer(7, 2);
     loadEnemies();
 }
 
