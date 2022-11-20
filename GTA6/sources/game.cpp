@@ -58,6 +58,10 @@ void Game::loadResources()
     QPixmap boxImage(Resources::TILES_DIR + "box.jpg");
     boxImage = boxImage.scaledToWidth(Environment::TILE_SCALE);
     boxImage = boxImage.scaledToHeight(Environment::TILE_SCALE);
+
+    QPixmap roomImage(Resources::TILES_DIR + "room.png");
+    roomImage = roomImage.scaledToWidth(Environment::TILE_SCALE);
+    roomImage = roomImage.scaledToHeight(Environment::TILE_SCALE);
     //---------------------------------------------------------------------------
 
     QPixmap PowerPelletImage(Resources::TILES_DIR + "Ice Creams.png");  //powerpellet
@@ -76,6 +80,8 @@ void Game::loadResources()
                 boardItems[i][j].setPixmap(bookshelfImage);
             else if (boardData[i][j] == -4)
                 boardItems[i][j].setPixmap(boxImage);
+            else if (boardData[i][j] == 04)
+                boardItems[i][j].setPixmap(roomImage);
 
             else {
                 boardItems[i][j].setPixmap(interiorImage);
