@@ -11,7 +11,7 @@
 Player::Player(int x, int y, int boardData[Environment::BOARD_HEIGHT][Environment::BOARD_WIDTH])
 {
     // Set Image
-    QPixmap image(Resources::ENTITIES_DIR + "cj.png");
+    QPixmap image(Resources::ENTITIES_DIR + "noweaponkid.png");
     image = image.scaledToWidth(Environment::TILE_SCALE);
     image = image.scaledToHeight(Environment::TILE_SCALE);
     setPixmap(image);
