@@ -4,7 +4,7 @@
 Bullet::Bullet(int x, int y)
 {
     // Set Image
-    QPixmap image(Resources::TILES_DIR + "shuriken.png");
+    QPixmap image(Resources::TILES_DIR + "weapon.png");
     image = image.scaledToWidth(Environment::TILE_SCALE);
     image = image.scaledToHeight(Environment::TILE_SCALE);
     setPixmap(image);
