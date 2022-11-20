@@ -6,7 +6,7 @@
 PowerPellet::PowerPellet(int x, int y)
 {
     // Set Image
-    QPixmap image(Resources::TILES_DIR + "Ice Cream.png");
+    QPixmap image(Resources::TILES_DIR + "candy.png");
     image = image.scaledToWidth(Environment::TILE_SCALE);
     image = image.scaledToHeight(Environment::TILE_SCALE);
     setPixmap(image);
