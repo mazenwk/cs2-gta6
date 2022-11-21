@@ -2,7 +2,10 @@
 #define CONSTANTS_H
 
 #include <QDir>
+#include <QGraphicsRectItem>
 #include <QString>
+#include <QBrush>
+#include <QGraphicsScene>
 
 
 namespace Resources {
@@ -27,7 +30,7 @@ namespace Environment {
     /**
      * @brief The screen width
      */
-    const int SCREEN_WIDTH = 800;
+    const int SCREEN_WIDTH = 980;
 
     /**
      * @brief The screen height
@@ -47,7 +50,7 @@ namespace Environment {
     /**
      * @brief The tile scale; height & width
      */
-    const int TILE_SCALE = 50;
+    const int TILE_SCALE = 65;
 
     /**
      * @brief The powerpellet number code in the text file
@@ -64,6 +67,20 @@ namespace Environment {
      */
     const int BULLET_CODE = 97;
 }
+
+class GUI {
+public:
+    static void drawPanel(QGraphicsScene* scene, int x, int y, int width, int height, QColor color, double opacity){
+        // draws a panel at the specified location with the specified properties
+        QGraphicsRectItem* panel = new QGraphicsRectItem(x,y,width,height);
+        QBrush brush;
+        brush.setStyle(Qt::SolidPattern);
+        brush.setColor(color);
+        panel->setBrush(brush);
+        panel->setOpacity(opacity);
+        scene->addItem(panel);
+    }
+};
 
 /**
  * @brief Gets the string type name of the given object.

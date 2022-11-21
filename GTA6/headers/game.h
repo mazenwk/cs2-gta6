@@ -37,6 +37,9 @@ public:
      */
     void show();
 
+    /**
+     * @brief Watches the game values and controls the enemies
+     */
     void watch();
 
     ~Game();
@@ -87,7 +90,9 @@ private:
     void loadCollectibles();
 
     /**
-     * @brief Loads the player into the scene
+     * @brief Loads the player into the scene at the given x and y positions
+     * @param x The x position on the board
+     * @param y The y position on the board
      */
     void loadPlayer(int x, int y);
 
@@ -99,7 +104,14 @@ private:
     // TODO: Only one delay function
     void delay(int n);
 
+    /**
+     * @brief Displays the game over overlay when the player dies
+     * @param The text to display in the game over screen
+     */
     void displayGameOverWindow(QString textToDisplay);
+
+    void restartGame();
+    void close();
 };
 
 #endif // GAME_H

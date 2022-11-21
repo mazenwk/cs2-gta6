@@ -5,6 +5,7 @@
 
 #include "headers/player.h"
 #include "headers/powerpellet.h"
+#include "headers/button.h"
 
 #include <QString>
 #include <QCoreApplication>
@@ -108,6 +109,7 @@ void Game::loadResources()
     loadCollectibles();
     loadPlayer(7, 2);
     loadEnemies();
+    player->setFocus();
 }
 
 void Game::show()
@@ -196,7 +198,6 @@ void Game::loadPlayer(int x, int y)
     scene.addItem(player);
 
     player->setFlag(QGraphicsPixmapItem::ItemIsFocusable);
-    player->setFocus();
 }
 
 void Game::loadEnemies()
@@ -215,35 +216,66 @@ void Game::delay(int n)
 
 void Game::displayGameOverWindow(QString textToDisplay)
 {
-    // disable all scene items
+    // Disable all scene items
     for (size_t i = 0, n = scene.items().size(); i < n; i++){
         scene.items()[i]->setEnabled(false);
     }
 
-//    // pop up semi transparent panel
-//    drawPanel(0,0,1024,768,Qt::black,0.65);
+    // Pop up semi transparent panel
+    GUI::drawPanel(&scene, 0, 0, Environment::SCREEN_WIDTH, Environment::SCREEN_HEIGHT, Qt::black, 0.65);
 
-//    // draw panel
-//    drawPanel(312,184,400,400,Qt::lightGray,0.75);
+    // Draw panel
+    GUI::drawPanel(&scene, 312, 184, 400, 550, Qt::lightGray, 0.75);
 
-//    // create playAgain button
-//    Button* playAgain = new Button(QString("Play Again"));
-//    playAgain->setPos(410,300);
-//    scene->addItem(playAgain);
-//    connect(playAgain,SIGNAL(clicked()),this,SLOT(restartGame()));
+    // Create playAgain button
+    Button* playAgain = new Button(QString("Play Again"));
+    playAgain->setPos(410, 300);
+    scene.addItem(playAgain);
+    Button::connect(playAgain, SIGNAL(clicked()), &view, SLOT(Game::restartGame()));
 
-//    // create quit button
-//    Button* quit = new Button(QString("Quit"));
-//    quit->setPos(410,375);
-//    scene->addItem(quit);
-//    connect(quit,SIGNAL(clicked()),this,SLOT(close()));
+    // Create quit button
+    Button* quit = new Button(QString("Quit"));
+    quit->setPos(410, 375);
+    scene.addItem(quit);
+    Button::connect(quit, SIGNAL(clicked()), &view, SLOT(close()));
 
     QGraphicsTextItem* overText = new QGraphicsTextItem(textToDisplay);
     QFont* font = new QFont;
-    overText->setPos(300, 300);
+    overText->setPos(380, 210);
     font->setPointSize(32);
     font->setBold(true);
     overText->setFont(*font);
+    overText->setDefaultTextColor(Qt::white);
 
     scene.addItem(overText);
 }
+
+void Game::restartGame()
+{
+    delete player;
+    for (int i = 0; i < powerPellets.size(); i++) {
+        delete powerPellets[i];
+    }
+    for (int i = 0; i < enemies.size(); i++) {
+        delete enemies[i];
+    }
+    for (int i = 0; i < bullets.size(); i++) {
+        delete bullets[i];
+    }
+
+    enemies.clear();
+    powerPellets.clear();
+    bullets.clear();
+
+    //scene.clear();
+
+    loadLevel("123.txt");
+    loadResources();
+}
+
+void Game::close()
+{
+    view.close();
+}
+
+

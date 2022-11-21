@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
+    sources/button.cpp \
     sources/game.cpp \
     sources/bullet.cpp \
     sources/enemy.cpp \
@@ -19,6 +20,7 @@ SOURCES += \
 HEADERS += \
     headers/constants.h \
     headers/game.h \
+    headers/button.h \
     headers/bullet.h \
     headers/enemy.h \
     headers/player.h \
