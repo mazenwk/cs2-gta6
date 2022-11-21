@@ -4,7 +4,7 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsSceneMouseEvent>
 
-class Button : public QObject, public QGraphicsRectItem{
+class Button : public QObject, public QGraphicsRectItem {
     Q_OBJECT
 public:
     // constructors
@@ -14,10 +14,9 @@ public:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+    QGraphicsTextItem* text;
 signals:
     void clicked();
-private:
-    QGraphicsTextItem* text;
 };
 
 #endif // BUTTON_H

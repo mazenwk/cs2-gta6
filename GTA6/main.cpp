@@ -1,4 +1,5 @@
 #include "headers/game.h"
+#include "headers/gamewindow.h"
 //#include "headers/constants.h"
 
 #include <QApplication>
@@ -12,11 +13,14 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    Game game("Maze Game");
-    game.loadLevel("123.txt");
-    game.loadResources();
-    game.show();
-    game.watch();
+    //Game game("Maze Game");
+    //game.loadLevel("123.txt");
+    //game.loadResources();
+    //game.show();
+    //game.watch();
+
+    GameWindow gameWindow("GTA 6");
+    gameWindow.start();
 
     return a.exec();
 }

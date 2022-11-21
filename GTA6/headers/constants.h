@@ -1,6 +1,7 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+#include <QCoreApplication>
 #include <QDir>
 #include <QGraphicsRectItem>
 #include <QString>
@@ -24,18 +25,23 @@ namespace Resources {
      * @brief The directory of entities png files
      */
     const QString ENTITIES_DIR = QDir::currentPath() + "\\resources\\entities\\";
+
+    /**
+     * @brief The directory of ui elements files
+     */
+    const QString UI_DIR = QDir::currentPath() + "\\resources\\ui\\";
 }
 
 namespace Environment {
     /**
      * @brief The screen width
      */
-    const int SCREEN_WIDTH = 980;
+    const int SCREEN_WIDTH = 1600; // 1280
 
     /**
      * @brief The screen height
      */
-    const int SCREEN_HEIGHT = 800;
+    const int SCREEN_HEIGHT = 900; // 720
 
     /**
      * @brief The board width
@@ -66,9 +72,11 @@ namespace Environment {
      * @brief The bullet number code in the text file
      */
     const int BULLET_CODE = 97;
+
+    static const int ObjectName = 0;
 }
 
-class GUI {
+class UI {
 public:
     static void drawPanel(QGraphicsScene* scene, int x, int y, int width, int height, QColor color, double opacity){
         // draws a panel at the specified location with the specified properties
@@ -79,6 +87,13 @@ public:
         panel->setBrush(brush);
         panel->setOpacity(opacity);
         scene->addItem(panel);
+    }
+
+    static void delay(int n)
+    {
+        QTime dieTime= QTime::currentTime().addSecs(n);
+        while (QTime::currentTime() < dieTime)
+            QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
     }
 };
 

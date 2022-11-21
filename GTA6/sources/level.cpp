@@ -1,29 +1,20 @@
-#include "headers/game.h"
-#include "headers/bullet.h"
-#include "headers/constants.h"
-#include "headers/enemy.h"
-
-#include "headers/player.h"
-#include "headers/powerpellet.h"
+#include "headers/level.h"
 #include "headers/button.h"
 
-#include <QString>
-#include <QCoreApplication>
-
-#include <stdlib.h>
-#include <time.h>
-
-Game::Game(QString gameTitle)
+Level::Level(QString levelName)
 {
-    view.setFixedSize(Environment::SCREEN_WIDTH, Environment::SCREEN_HEIGHT);
-    view.setWindowTitle(gameTitle);
-    QBrush brush(Qt::black);
-    view.setBackgroundBrush(brush);
+    name = levelName;
+
+    levelScene = new QGraphicsScene();
+    levelScene->setSceneRect(0 , 0, Environment::SCREEN_WIDTH, Environment::SCREEN_HEIGHT);
+
+    loadLevelData();
+    loadLevelResources();
 }
 
-void Game::loadLevel(QString levelFileName)
+void Level::loadLevelData()
 {
-    QFile file(Resources::LEVELS_DIR + levelFileName);
+    QFile file(Resources::LEVELS_DIR + name);
     file.open(QIODevice::ReadOnly);
     QTextStream stream(&file);
     QString temp;
@@ -36,7 +27,7 @@ void Game::loadLevel(QString levelFileName)
     }
 }
 
-void Game::loadResources()
+void Level::loadLevelResources()
 {
     // TODO: Convert to separate function
     QPixmap exteriorImage(Resources::TILES_DIR + "wall.jpg"); //interior
@@ -102,7 +93,7 @@ void Game::loadResources()
             // Set Position
             boardItems[i][j].setPos(Environment::TILE_SCALE + j * Environment::TILE_SCALE, Environment::TILE_SCALE + i * Environment::TILE_SCALE);
 
-            scene.addItem(&boardItems[i][j]);
+            levelScene->addItem(&boardItems[i][j]);
         }
     }
 
@@ -112,16 +103,36 @@ void Game::loadResources()
     player->setFocus();
 }
 
-void Game::show()
+void Level::loadCollectibles()
 {
-    view.setScene(&scene);
-    view.show();
+    for (int i = 0; i < powerPellets.size(); i++) {
+        levelScene->addItem(powerPellets[i]);
+    }
+    for (int i = 0; i < bullets.size(); i++) {
+        levelScene->addItem(bullets[i]);
+    }
 }
 
-void Game::watch()
+void Level::loadPlayer(int x, int y)
+{
+    player = new Player(y, x, boardData);
+    levelScene->addItem(player);
+
+    player->setFlag(QGraphicsPixmapItem::ItemIsFocusable);
+}
+
+void Level::loadEnemies()
+{
+    for (int i = 0; i < enemies.size(); i++) {
+        levelScene->addItem(enemies[i]);
+    }
+}
+
+void Level::watch()
 {
     while(player->health != 0) {
-        delay(1);
+        // TODO: shorter duration
+        UI::delay(1);
 
         for (int i = 0; i < enemies.size(); i++) {
             int row = enemies[i]->x;
@@ -161,14 +172,9 @@ void Game::watch()
             enemies[i]->setPos(Environment::TILE_SCALE + enemies[i]->x * Environment::TILE_SCALE, Environment::TILE_SCALE + enemies[i]->y * Environment::TILE_SCALE);
         }
     }
-
-    if (player->health <= 0) {
-        displayGameOverWindow("GAME OVER!");
-    }
-
 }
 
-Game::~Game()
+Level::~Level()
 {
     delete player;
     for (int i = 0; i < powerPellets.size(); i++) {
@@ -181,101 +187,3 @@ Game::~Game()
         delete bullets[i];
     }
 }
-
-void Game::loadCollectibles()
-{
-    for (int i = 0; i < powerPellets.size(); i++) {
-        scene.addItem(powerPellets[i]);
-    }
-    for (int i = 0; i < bullets.size(); i++) {
-        scene.addItem(bullets[i]);
-    }
-}
-
-void Game::loadPlayer(int x, int y)
-{
-    player = new Player(y, x, boardData);
-    scene.addItem(player);
-
-    player->setFlag(QGraphicsPixmapItem::ItemIsFocusable);
-}
-
-void Game::loadEnemies()
-{
-    for (int i = 0; i < enemies.size(); i++) {
-        scene.addItem(enemies[i]);
-    }
-}
-
-void Game::delay(int n)
-{
-    QTime dieTime= QTime::currentTime().addSecs(n);
-    while (QTime::currentTime() < dieTime)
-        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-}
-
-void Game::displayGameOverWindow(QString textToDisplay)
-{
-    // Disable all scene items
-    for (size_t i = 0, n = scene.items().size(); i < n; i++){
-        scene.items()[i]->setEnabled(false);
-    }
-
-    // Pop up semi transparent panel
-    UI::drawPanel(&scene, 0, 0, Environment::SCREEN_WIDTH, Environment::SCREEN_HEIGHT, Qt::black, 0.65);
-
-    // Draw panel
-    UI::drawPanel(&scene, 312, 184, 400, 550, Qt::lightGray, 0.75);
-
-    // Create playAgain button
-    Button* playAgain = new Button(QString("Play Again"));
-    playAgain->setPos(410, 300);
-    scene.addItem(playAgain);
-    Button::connect(playAgain, SIGNAL(clicked()), &view, SLOT(Game::restartGame()));
-
-    // Create quit button
-    Button* quit = new Button(QString("Quit"));
-    quit->setPos(410, 375);
-    scene.addItem(quit);
-    Button::connect(quit, SIGNAL(clicked()), &view, SLOT(close()));
-
-    QGraphicsTextItem* overText = new QGraphicsTextItem(textToDisplay);
-    QFont* font = new QFont;
-    overText->setPos(380, 210);
-    font->setPointSize(32);
-    font->setBold(true);
-    overText->setFont(*font);
-    overText->setDefaultTextColor(Qt::white);
-
-    scene.addItem(overText);
-}
-
-void Game::restartGame()
-{
-    delete player;
-    for (int i = 0; i < powerPellets.size(); i++) {
-        delete powerPellets[i];
-    }
-    for (int i = 0; i < enemies.size(); i++) {
-        delete enemies[i];
-    }
-    for (int i = 0; i < bullets.size(); i++) {
-        delete bullets[i];
-    }
-
-    enemies.clear();
-    powerPellets.clear();
-    bullets.clear();
-
-    //scene.clear();
-
-    loadLevel("123.txt");
-    loadResources();
-}
-
-void Game::close()
-{
-    view.close();
-}
-
-
