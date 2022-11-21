@@ -72,8 +72,6 @@ namespace Environment {
      * @brief The bullet number code in the text file
      */
     const int BULLET_CODE = 97;
-
-    static const int ObjectName = 0;
 }
 
 class UI {

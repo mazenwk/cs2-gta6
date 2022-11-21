@@ -24,7 +24,6 @@ GameWindow::GameWindow(QString gameTitle)
 void GameWindow::start()
 {
     loadMainMenu();
-    //loadLevel("123.txt"); // TODO: level 1 instead / choosing levels
     this->show();
 }
 

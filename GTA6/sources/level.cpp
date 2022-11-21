@@ -1,5 +1,4 @@
 #include "headers/level.h"
-#include "headers/button.h"
 
 Level::Level(QString levelName)
 {

@@ -21,7 +21,7 @@ Player::Player(int x, int y, int boardData[Environment::BOARD_HEIGHT][Environmen
     column = y;
     setPos(Environment::TILE_SCALE + column * Environment::TILE_SCALE, Environment::TILE_SCALE + row * Environment::TILE_SCALE);
 
-    // Set data Array
+    // Copy data Array
     for (int i = 0; i < Environment::BOARD_HEIGHT; i++)
         for (int j = 0; j < Environment::BOARD_WIDTH; j++)
             data[i][j] = boardData[i][j];
@@ -76,7 +76,6 @@ void Player::handleCollisions()
 
 void Player::damage()
 {
-    // TODO: turn off god mode
     if (!isGodMode) {
         health--;
         if (health <= 0) {
@@ -87,11 +86,7 @@ void Player::damage()
 
 void Player::die()
 {
-    // Game over screen
     scene()->removeItem(this);
-//    for (int i = 0; i < scene()->items().size(); i++) {
-//       scene()->items()[i]->setEnabled(false);
-//    }
 }
 
 void Player::attack()
