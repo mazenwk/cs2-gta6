@@ -21,33 +21,30 @@ public:
 
     void start();
 private:
-    QList<QGraphicsPixmapItem*> viewItems;
-
     /**
      * @brief The main menu scene
      */
-    QGraphicsScene* mainMenuScene;
+    QGraphicsScene* mainMenuScene {};
 
     /**
      * @brief The levels selection scene
      */
-    QGraphicsScene* levelsScene;
+    QGraphicsScene* levelsScene {};
     QList<Button> levelsButtons;
 
     QList<QString> levels;
-    Level* currentLevel;
+    Level* currentLevel {};
 
     void getLevels();
 
     void loadMainMenu();
-
-    void gameOver(bool didPlayerWin);
 
     void displayGameOverWindow();
 
 private slots:
     void play();
     void quit();
+    void back();
     void loadLevel(QString levelName = "");
     void retryLevel();
     void returnToMenu();

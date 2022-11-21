@@ -44,9 +44,7 @@ void GameWindow::loadMainMenu()
     mainMenuCover = mainMenuCover.scaledToWidth(Environment::SCREEN_WIDTH);
     mainMenuCover = mainMenuCover.scaledToHeight(Environment::SCREEN_HEIGHT);
 
-    viewItems.append(new QGraphicsPixmapItem(mainMenuCover));
-
-    mainMenuScene->addItem(viewItems[0]);
+    mainMenuScene->addItem(new QGraphicsPixmapItem(mainMenuCover));
     // ----------------------------------------------------------------
 
     // -------------------------- Add Buttons --------------------------
@@ -106,6 +104,11 @@ void GameWindow::displayGameOverWindow()
 
 void GameWindow::play()
 {
+    if (levelsScene != NULL) {
+        this->setScene(levelsScene);
+        return;
+    }
+
     // -------------------------- Set The Scene--------------------------
     levelsScene = new QGraphicsScene();
     levelsScene->setSceneRect(0 , 0, Environment::SCREEN_WIDTH, Environment::SCREEN_HEIGHT);
@@ -113,17 +116,28 @@ void GameWindow::play()
     // ----------------------------------------------------------------
 
     // -------------------------- Load Cover --------------------------
-    levelsScene->addItem(viewItems[0]);
+    QPixmap levelsCover(Resources::UI_DIR + "main-menu-cover.png");
+    levelsCover = levelsCover.scaledToWidth(Environment::SCREEN_WIDTH);
+    levelsCover = levelsCover.scaledToHeight(Environment::SCREEN_HEIGHT);
+
+    levelsScene->addItem(new QGraphicsPixmapItem(levelsCover));
     // ----------------------------------------------------------------
 
-    // -------------------------- Add Levles --------------------------
+    // -------------------------- Add Back Button --------------------------
+    Button* backButton = new Button("Back");
+    backButton->setPos(25, 75);
+    levelsScene->addItem(backButton);
+    QObject::connect(backButton, SIGNAL(clicked()), this, SLOT(back()), Qt::QueuedConnection);
+    // ----------------------------------------------------------------
+
+    // -------------------------- Add Levels --------------------------
     getLevels();
 
     for (int i = 0; i < levels.size(); i++) {
         Button* levelButton = new Button(QString(levels[i]));
         levelButton->setFlag(QGraphicsPixmapItem::ItemIsFocusable);
         levelButton->setData(0, levels[i]);
-        levelButton->setPos(100, 100 + (i * 200));
+        levelButton->setPos(100, 200 + (i * 200));
         levelsScene->addItem(levelButton);
         QObject::connect(levelButton, SIGNAL(clicked()), this, SLOT(loadLevel()), Qt::QueuedConnection);
     }
@@ -136,13 +150,13 @@ void GameWindow::quit()
     this->close();
 }
 
+void GameWindow::back()
+{
+    this->setScene(mainMenuScene);
+}
+
 void GameWindow::loadLevel(QString levelName)
 {
-    if (currentLevel != nullptr) {
-        delete currentLevel;
-        currentLevel = nullptr;
-    }
-
     currentLevel = new Level((levelName == "" ? levelsScene->focusItem()->data(0).toString() : levelName));
     this->setScene(currentLevel->levelScene);
     currentLevel->watch();
