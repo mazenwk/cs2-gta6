@@ -70,6 +70,8 @@ private:
      */
     void attack();
 
+    void change_app();
+
 
     void delay(int n);
 };

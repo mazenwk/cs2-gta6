@@ -14,22 +14,22 @@ namespace Resources {
     /**
      * @brief The directory of levels text files
      */
-    const QString LEVELS_DIR = QDir::currentPath() + "\\resources\\levels\\";
+    const QString LEVELS_DIR = "/Users/faridabey/Desktop/cs2-gta6/GTA6/resources/levels/";
 
     /**
      * @brief The directory of tiles png files
      */
-    const QString TILES_DIR = QDir::currentPath() + "\\resources\\tiles\\";
+    const QString TILES_DIR = "/Users/faridabey/Desktop/cs2-gta6/GTA6/resources/tiles/";
 
     /**
      * @brief The directory of entities png files
      */
-    const QString ENTITIES_DIR = QDir::currentPath() + "\\resources\\entities\\";
+    const QString ENTITIES_DIR = "/Users/faridabey/Desktop/cs2-gta6/GTA6/resources/entities/";
 
     /**
      * @brief The directory of ui elements files
      */
-    const QString UI_DIR = QDir::currentPath() + "\\resources\\ui\\";
+    const QString UI_DIR = "/Users/faridabey/Desktop/cs2-gta6/GTA6/resources/ui/";
 }
 
 namespace Environment {
@@ -72,6 +72,8 @@ namespace Environment {
      * @brief The bullet number code in the text file
      */
     const int BULLET_CODE = 97;
+
+    static const int ObjectName = 0;
 }
 
 class UI {
@@ -89,7 +91,7 @@ public:
 
     static void delay(int n)
     {
-        QTime dieTime= QTime::currentTime().addSecs(n);
+        QTime dieTime= QTime::currentTime().addMSecs(n);
         while (QTime::currentTime() < dieTime)
             QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
     }

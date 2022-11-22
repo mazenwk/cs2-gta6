@@ -130,48 +130,48 @@ void Level::loadEnemies()
 void Level::watch()
 {
     while(player->health != 0) {
-        // TODO: shorter duration
-        UI::delay(1);
+           // TODO: shorter duration
+           UI::delay(500);
 
-        for (int i = 0; i < enemies.size(); i++) {
-            int row = enemies[i]->x;
-            int column = enemies[i]->y;
+           for (int i = 0; i < enemies.size(); i++) {
+               int row = enemies[i]->y;
+               int column = enemies[i]->x;
 
-            srand((unsigned) time(NULL));
-            int randmov;
+               srand((unsigned) time(NULL));
+               int randmov;
 
-            randmov = (1+(rand() * i)%4);
-            switch(randmov)
-            {
-                case 1: //move to the right
-                if (boardData[row + 1][column] >= 0) {
-                    enemies[i]->x++;
-                }
-                break;
+               randmov = (1+(rand() * i)%4);
+               switch(randmov)
+               {
+                   case 1: //move to the right
+                   if (boardData[row + 1][column] >= 0) {
+                       enemies[i]->y++;
+                   }
+                   break;
 
-                case 2: //move to the left
-                if (boardData[row - 1][column] >= 0) {
-                    enemies[i]->x--;
-                }
-                break;
+                   case 2: //move to the left
+                   if (boardData[row - 1][column] >= 0) {
+                       enemies[i]->y--;
+                   }
+                   break;
 
-                case 3: //move up
-                if (boardData[row][column + 1] >= 0) {
-                    enemies[i]->y++;
-                }
-                break;
+                   case 3: //move up
+                   if (boardData[row][column + 1] >= 0) {
+                       enemies[i]->x++;
+                   }
+                   break;
 
-                case 4: //move down
-                if (boardData[row][column - 1] >= 0) {
-                    enemies[i]->y--;
-                }
-                break;
-            }
+                   case 4: //move down
+                   if (boardData[row][column - 1] >= 0) {
+                       enemies[i]->x--;
+                   }
+                   break;
+               }
 
-            enemies[i]->setPos(Environment::TILE_SCALE + enemies[i]->x * Environment::TILE_SCALE, Environment::TILE_SCALE + enemies[i]->y * Environment::TILE_SCALE);
-        }
-    }
-}
+               enemies[i]->setPos(Environment::TILE_SCALE + enemies[i]->x * Environment::TILE_SCALE, Environment::TILE_SCALE + enemies[i]->y * Environment::TILE_SCALE);
+           }
+       }
+   }
 
 Level::~Level()
 {

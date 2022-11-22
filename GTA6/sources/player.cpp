@@ -62,6 +62,13 @@ void Player::handleCollisions()
         if (str_type(*items[i]) == typeid(Bullet).name()) {
             attack();
             scene()->removeItem(items[i]);
+            // change apperence
+                change_app();
+                delay(400);
+                QPixmap image(Resources::ENTITIES_DIR + "noweaponkid.png");
+                image = image.scaledToWidth(Environment::TILE_SCALE);
+                image = image.scaledToHeight(Environment::TILE_SCALE);
+                setPixmap(image);
         } else if (str_type(*items[i]) == typeid(Enemy).name()) {
             damage();
             // TODO: Reset player & enemy positions
@@ -88,7 +95,13 @@ void Player::die()
 {
     scene()->removeItem(this);
 }
-
+void Player::change_app()
+{
+    QPixmap image(Resources::ENTITIES_DIR + "with weapons kid.jpg");
+    image = image.scaledToWidth(Environment::TILE_SCALE);
+    image = image.scaledToHeight(Environment::TILE_SCALE);
+    setPixmap(image);
+}
 void Player::attack()
 {
     // Euclidean distance for closest enemy
@@ -96,7 +109,7 @@ void Player::attack()
 
 void Player::delay(int n)
 {
-    QTime dieTime= QTime::currentTime().addSecs(n);
+    QTime dieTime= QTime::currentTime().addMSecs(n);
     while (QTime::currentTime() < dieTime)
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }
