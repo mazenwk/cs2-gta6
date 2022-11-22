@@ -1,5 +1,5 @@
 #include "headers/game.h"
-#include "headers/bullet.h"
+#include "headers/weapon.h"
 #include "headers/constants.h"
 #include "headers/enemy.h"
 
@@ -12,6 +12,11 @@
 
 #include <stdlib.h>
 #include <time.h>
+
+/**********************************************************************************************************************************/
+/********************************************* OBSOLETE - REPALCED WITH GAMEWINDOW ************************************************/
+/***************************************************** LEFT TEMPORARILY ***********************************************************/
+/**********************************************************************************************************************************/
 
 Game::Game(QString gameTitle)
 {
@@ -94,8 +99,8 @@ void Game::loadResources()
                 else if (boardData[i][j] == Environment::ENEMY_CODE) {
                     enemies.push_back(new Enemy(j, i));
                 }
-                else if (boardData[i][j] == Environment::BULLET_CODE) {
-                    bullets.push_back(new Bullet(j, i));
+                else if (boardData[i][j] == Environment::WEAPON_CODE) {
+                    bullets.push_back(new Weapon(j, i));
                 }
             }
 

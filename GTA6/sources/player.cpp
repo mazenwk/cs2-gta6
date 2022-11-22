@@ -1,7 +1,7 @@
 #include "headers/constants.h"
 #include "headers/player.h"
 #include "headers/powerpellet.h"
-#include "headers/bullet.h"
+#include "headers/weapon.h"
 #include "headers/enemy.h"
 
 #include <QGraphicsScene>
@@ -59,7 +59,7 @@ void Player::handleCollisions()
     QList<QGraphicsItem*> items = collidingItems();
     for (int i = 0; i < items.size(); i++)
     {
-        if (str_type(*items[i]) == typeid(Bullet).name()) {
+        if (str_type(*items[i]) == typeid(Weapon).name()) {
             attack();
             scene()->removeItem(items[i]);
             // change apperence

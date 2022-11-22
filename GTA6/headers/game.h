@@ -2,7 +2,7 @@
 #define GAME_H
 
 #include "constants.h"
-#include "headers/bullet.h"
+#include "headers/weapon.h"
 #include "headers/enemy.h"
 #include "headers/player.h"
 #include "headers/powerpellet.h"
@@ -11,6 +11,11 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsView>
 #include <QString>
+
+/**********************************************************************************************************************************/
+/********************************************* OBSOLETE - REPALCED WITH GAMEWINDOW ************************************************/
+/***************************************************** LEFT TEMPORARILY ***********************************************************/
+/**********************************************************************************************************************************/
 
 class Game {
 public:
@@ -77,7 +82,7 @@ private:
     /**
      * @brief The bullets present powerpellets in the scene
      */
-    QList<Bullet*> bullets;
+    QList<Weapon*> bullets;
 
     /**
      * @brief The main player object

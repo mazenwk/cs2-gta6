@@ -4,6 +4,9 @@
 #include <QGraphicsPixmapItem>
 #include <QObject>
 
+/**
+ * @brief The Enemy class
+ */
 class Enemy : public QGraphicsPixmapItem
 {
 public:
@@ -15,7 +18,14 @@ public:
      */
     Enemy(int x, int y);
 
+    /**
+     * @brief The x position of the enemy
+     */
     int x;
+
+    /**
+     * @brief The y position of the enemy
+     */
     int y;
     //change apperence
     void change_app();

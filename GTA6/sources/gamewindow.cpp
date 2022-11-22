@@ -27,8 +27,9 @@ void GameWindow::start()
     this->show();
 }
 
-void GameWindow::getLevels()
+void GameWindow::getAvailableLevelsNames()
 {
+    // Get levels names from file
     QDir dir(Resources::LEVELS_DIR);
     for (const QFileInfo &file : dir.entryInfoList(QDir::Files))
     {
@@ -88,7 +89,7 @@ void GameWindow::displayGameOverWindow()
     Button* quit = new Button(QString("Quit"));
     quit->setPos(410, 375);
     currentLevel->levelScene->addItem(quit);
-    Button::connect(quit, SIGNAL(clicked()), this, SLOT(returnToMenu()));
+    Button::connect(quit, SIGNAL(clicked()), this, SLOT(btnReturnToMenu()));
 
     QGraphicsTextItem* overText = new QGraphicsTextItem("GAME OVER!");
     QFont* font = new QFont;
@@ -101,17 +102,17 @@ void GameWindow::displayGameOverWindow()
     currentLevel->levelScene->addItem(overText);
 }
 
-void GameWindow::play()
+void GameWindow::btnPlay()
 {
-    if (levelsScene != NULL) {
-        this->setScene(levelsScene);
+    if (levelSelectionScene != NULL) {
+        this->setScene(levelSelectionScene);
         return;
     }
 
     // -------------------------- Set The Scene--------------------------
-    levelsScene = new QGraphicsScene();
-    levelsScene->setSceneRect(0 , 0, Environment::SCREEN_WIDTH, Environment::SCREEN_HEIGHT);
-    this->setScene(levelsScene);
+    levelSelectionScene = new QGraphicsScene();
+    levelSelectionScene->setSceneRect(0 , 0, Environment::SCREEN_WIDTH, Environment::SCREEN_HEIGHT);
+    this->setScene(levelSelectionScene);
     // ----------------------------------------------------------------
 
     // -------------------------- Load Cover --------------------------
@@ -119,56 +120,56 @@ void GameWindow::play()
     levelsCover = levelsCover.scaledToWidth(Environment::SCREEN_WIDTH);
     levelsCover = levelsCover.scaledToHeight(Environment::SCREEN_HEIGHT);
 
-    levelsScene->addItem(new QGraphicsPixmapItem(levelsCover));
+    levelSelectionScene->addItem(new QGraphicsPixmapItem(levelsCover));
     // ----------------------------------------------------------------
 
     // -------------------------- Add Back Button --------------------------
     Button* backButton = new Button("Back");
     backButton->setPos(25, 75);
-    levelsScene->addItem(backButton);
+    levelSelectionScene->addItem(backButton);
     QObject::connect(backButton, SIGNAL(clicked()), this, SLOT(back()), Qt::QueuedConnection);
     // ----------------------------------------------------------------
 
     // -------------------------- Add Levels --------------------------
-    getLevels();
+    getAvailableLevelsNames();
 
     for (int i = 0; i < levels.size(); i++) {
         Button* levelButton = new Button(QString(levels[i]));
         levelButton->setFlag(QGraphicsPixmapItem::ItemIsFocusable);
         levelButton->setData(0, levels[i]);
         levelButton->setPos(100, 200 + (i * 200));
-        levelsScene->addItem(levelButton);
+        levelSelectionScene->addItem(levelButton);
         QObject::connect(levelButton, SIGNAL(clicked()), this, SLOT(loadLevel()), Qt::QueuedConnection);
     }
     // ----------------------------------------------------------------
 }
 
-void GameWindow::quit()
+void GameWindow::btnQuit()
 {
     //scene->clear();
     this->close();
 }
 
-void GameWindow::back()
+void GameWindow::btnBack()
 {
     this->setScene(mainMenuScene);
 }
 
-void GameWindow::loadLevel(QString levelName)
+void GameWindow::btnLoadLevel(QString levelName)
 {
-    currentLevel = new Level((levelName == "" ? levelsScene->focusItem()->data(0).toString() : levelName));
+    currentLevel = new Level((levelName == "" ? levelSelectionScene->focusItem()->data(0).toString() : levelName));
     this->setScene(currentLevel->levelScene);
     currentLevel->watch();
     displayGameOverWindow();
 }
 
-void GameWindow::retryLevel()
+void GameWindow::btnRetryLevel()
 {
-    loadLevel(currentLevel->name);
+    btnLoadLevel(currentLevel->name);
 }
 
-void GameWindow::returnToMenu()
+void GameWindow::btnReturnToMenu()
 {
-    this->setScene(levelsScene);
+    this->setScene(levelSelectionScene);
     delete currentLevel;
 }

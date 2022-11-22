@@ -1,6 +1,7 @@
 #include "headers/button.h"
-#include <QGraphicsTextItem>
+
 #include <QBrush>
+#include <QGraphicsTextItem>
 
 Button::Button(QString name, QGraphicsItem *parent): QGraphicsRectItem(parent){
     // Draw the button
