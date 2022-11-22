@@ -118,6 +118,26 @@ void Level::loadPlayer(int x, int y)
     levelScene->addItem(player);
 
     player->setFlag(QGraphicsPixmapItem::ItemIsFocusable);
+
+
+    //either i or j = 0
+
+            QPixmap heart(Resources::TILES_DIR + "Ice Creams.png");
+            heart = heart.scaledToWidth(Environment::TILE_SCALE);
+            heart = heart.scaledToHeight(Environment::TILE_SCALE);
+
+
+            for(int i=0; i < hearts.size();i++)
+            {
+                hearts[i]= new QGraphicsPixmapItem();
+                hearts[i]->setPixmap(heart);
+                hearts[i]->setPos(Environment::TILE_SCALE + 0 * Environment::TILE_SCALE, Environment::TILE_SCALE + i * Environment::TILE_SCALE);
+
+               levelScene->addItem( hearts[i]);
+            }
+
+
+
 }
 
 void Level::loadEnemies()

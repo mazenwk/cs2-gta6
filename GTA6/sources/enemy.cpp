@@ -6,7 +6,7 @@
 Enemy::Enemy(int x, int y)
 {
     // Set Image
-    QPixmap image(Resources::ENTITIES_DIR + "ETweety.png");
+    QPixmap image(Resources::ENTITIES_DIR + "enemy 1.png");
     image = image.scaledToWidth(Environment::TILE_SCALE);
     image = image.scaledToHeight(Environment::TILE_SCALE);
     setPixmap(image);
@@ -17,4 +17,11 @@ Enemy::Enemy(int x, int y)
     this->x = x;
     this->y = y;
 
+}
+void Enemy::change_app()
+{
+    QPixmap image(Resources::ENTITIES_DIR + "enemy 2.png");
+    image = image.scaledToWidth(Environment::TILE_SCALE);
+    image = image.scaledToHeight(Environment::TILE_SCALE);
+    setPixmap(image);
 }

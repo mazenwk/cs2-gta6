@@ -97,7 +97,7 @@ void Player::die()
 }
 void Player::change_app()
 {
-    QPixmap image(Resources::ENTITIES_DIR + "with weapons kid.jpg");
+    QPixmap image(Resources::ENTITIES_DIR + "with weapons kid.png");
     image = image.scaledToWidth(Environment::TILE_SCALE);
     image = image.scaledToHeight(Environment::TILE_SCALE);
     setPixmap(image);

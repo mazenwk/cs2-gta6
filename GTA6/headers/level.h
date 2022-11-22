@@ -59,6 +59,9 @@ private:
     /**
      * @brief The main player object
      */
+
+    QList<QGraphicsPixmapItem *> hearts;
+
     Player* player;
 
     /**

@@ -17,6 +17,8 @@ public:
 
     int x;
     int y;
+    //change apperence
+    void change_app();
 };
 
 #endif // ENEMY_H
