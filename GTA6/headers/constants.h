@@ -1,35 +1,36 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+#include <QBrush>
 #include <QCoreApplication>
 #include <QDir>
 #include <QGraphicsRectItem>
-#include <QString>
-#include <QBrush>
 #include <QGraphicsScene>
+#include <QString>
 
 
 namespace Resources {
-    // resources directory is copied to the build folder using qmake commands [19:24]
+    // resources directory is copied to the build folder using qmake commands
+    // QDir::currentPath() + "\\resources\\XXX
     /**
      * @brief The directory of levels text files
      */
-    const QString LEVELS_DIR = "/Users/faridabey/Desktop/cs2-gta6/GTA6/resources/levels/";
+    const QString LEVELS_DIR = QDir::currentPath() + "\\resources\\levels\\";
 
     /**
      * @brief The directory of tiles png files
      */
-    const QString TILES_DIR = "/Users/faridabey/Desktop/cs2-gta6/GTA6/resources/tiles/";
+    const QString TILES_DIR = QDir::currentPath() + "\\resources\\tiles\\";
 
     /**
      * @brief The directory of entities png files
      */
-    const QString ENTITIES_DIR = "/Users/faridabey/Desktop/cs2-gta6/GTA6/resources/entities/";
+    const QString ENTITIES_DIR = QDir::currentPath() + "\\resources\\entities\\";
 
     /**
      * @brief The directory of ui elements files
      */
-    const QString UI_DIR = "/Users/faridabey/Desktop/cs2-gta6/GTA6/resources/ui/";
+    const QString UI_DIR = QDir::currentPath() + "\\resources\\ui\\";
 }
 
 namespace Environment {
@@ -69,15 +70,48 @@ namespace Environment {
     const int ENEMY_CODE = 98;
 
     /**
-     * @brief The bullet number code in the text file
+     * @brief The weapon number code in the text file
      */
-    const int BULLET_CODE = 97;
+    const int WEAPON_CODE = 97;
 
-    static const int ObjectName = 0;
+    /**
+     * @brief The exterior number code in the text file
+     */
+    const int EXTERIOR_CODE = -1;
+
+    /**
+     * @brief The bookshelf number code in the text file
+     */
+    const int BOOKSHELF_CODE = -2;
+
+    /**
+     * @brief The box number code in the text file
+     */
+    const int BOX_CODE = -4;
+
+    /**
+     * @brief The bricks 2 number code in the text file
+     */
+    const int BRICKS2_CODE = -5;
+
+    /**
+     * @brief The room number code in the text file
+     */
+    const int ROOM_CODE = 04;
 }
 
 class UI {
 public:
+    /**
+     * @brief Draws a panel with the given properties on top of a scene
+     * @param scene The scene to draw the panel in
+     * @param x The x start coordinate of the panel
+     * @param y The y start coordinate of the panel
+     * @param width The width of the panel
+     * @param height The height of the panel
+     * @param color The color of the panel
+     * @param opacity The opacity of the panel
+     */
     static void drawPanel(QGraphicsScene* scene, int x, int y, int width, int height, QColor color, double opacity){
         // draws a panel at the specified location with the specified properties
         QGraphicsRectItem* panel = new QGraphicsRectItem(x,y,width,height);
@@ -89,6 +123,10 @@ public:
         scene->addItem(panel);
     }
 
+    /**
+     * @brief Delays a UI component / function by n millisecond
+     * @param n The delay time in milliseconds
+     */
     static void delay(int n)
     {
         QTime dieTime= QTime::currentTime().addMSecs(n);

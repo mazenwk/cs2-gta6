@@ -9,26 +9,26 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    main.cpp \
     sources/level.cpp \
     sources/gamewindow.cpp \
-    main.cpp \
     sources/button.cpp \
     sources/game.cpp \
-    sources/bullet.cpp \
     sources/enemy.cpp \
     sources/player.cpp \
-    sources/powerpellet.cpp
+    sources/powerpellet.cpp \
+    sources/weapon.cpp
 
 HEADERS += \
     headers/constants.h \
+    headers/gamewindow.h \
     headers/game.h \
     headers/button.h \
-    headers/bullet.h \
     headers/enemy.h \
-    headers/gamewindow.h \
     headers/level.h \
     headers/player.h \
-    headers/powerpellet.h
+    headers/powerpellet.h \
+    headers/weapon.h
 
 FORMS +=
 

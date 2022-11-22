@@ -2,17 +2,25 @@
 #define LEVEL_H
 
 #include "headers/constants.h"
-#include "headers/powerpellet.h"
 #include "headers/enemy.h"
-#include "headers/bullet.h"
 #include "headers/player.h"
+#include "headers/powerpellet.h"
+#include "headers/weapon.h"
 
 #include <QGraphicsView>
 #include <QObject>
 
+/**
+ * @brief The Level class
+ */
 class Level
 {
 public:
+    /**
+     * @brief Default parameterized constructor.
+     * Creates a new level with its own scene and entities
+     * @param levelName
+     */
     Level(QString levelName);
 
     /**
@@ -25,6 +33,11 @@ public:
      */
     QString name;
 
+    /**
+     * @brief Watches the game.
+     * Moves the enemies and does health checks.
+     * Runs separately
+     */
     void watch();
 
     ~Level();
@@ -54,7 +67,7 @@ private:
     /**
      * @brief The bullets present powerpellets in the scene
      */
-    QList<Bullet*> bullets;
+    QList<Weapon*> bullets;
 
     /**
      * @brief The main player object

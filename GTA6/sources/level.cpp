@@ -2,17 +2,21 @@
 
 Level::Level(QString levelName)
 {
+    // Create a new level
     name = levelName;
 
+    // Create level scene
     levelScene = new QGraphicsScene();
     levelScene->setSceneRect(0 , 0, Environment::SCREEN_WIDTH, Environment::SCREEN_HEIGHT);
 
+    // Load scene
     loadLevelData();
     loadLevelResources();
 }
 
 void Level::loadLevelData()
 {
+    // Loads the board data from the file
     QFile file(Resources::LEVELS_DIR + name);
     file.open(QIODevice::ReadOnly);
     QTextStream stream(&file);
@@ -29,6 +33,8 @@ void Level::loadLevelData()
 void Level::loadLevelResources()
 {
     // TODO: Convert to separate function
+
+    // Loads the level textures and resources
     QPixmap exteriorImage(Resources::TILES_DIR + "wall.jpg"); //interior
     exteriorImage = exteriorImage.scaledToWidth(Environment::TILE_SCALE);
     exteriorImage = exteriorImage.scaledToHeight(Environment::TILE_SCALE);
@@ -59,23 +65,22 @@ void Level::loadLevelResources()
     interiorImage = interiorImage.scaledToWidth(Environment::TILE_SCALE);
     interiorImage = interiorImage.scaledToHeight(Environment::TILE_SCALE);
 
-    // Add to the board
+    // Adds the resources to the board items
     for (int i = 0; i < Environment::BOARD_HEIGHT; i++) {
         for (int j = 0; j < Environment::BOARD_WIDTH; j++) {
-            // Set Image
-            if (boardData[i][j] == -1)
+
+            if (boardData[i][j] == Environment::EXTERIOR_CODE)
                 boardItems[i][j].setPixmap(exteriorImage);
-                else if (boardData[i][j] == -2)
+            else if (boardData[i][j] == Environment::BOOKSHELF_CODE)
                     boardItems[i][j].setPixmap(bookshelfImage);
             else if (boardData[i][j] == -3)
                 boardItems[i][j].setPixmap(bookshelfImage);
-            else if (boardData[i][j] == -4)
+            else if (boardData[i][j] == Environment::BOX_CODE)
                 boardItems[i][j].setPixmap(boxImage);
-            else if (boardData[i][j] == -5)
+            else if (boardData[i][j] == Environment::BRICKS2_CODE)
                 boardItems[i][j].setPixmap(bricksImage2);
-            else if (boardData[i][j] == 04)
+            else if (boardData[i][j] == Environment::ROOM_CODE)
                 boardItems[i][j].setPixmap(roomImage);
-
             else {
                 boardItems[i][j].setPixmap(interiorImage);
                 if (boardData[i][j] == Environment::POWERPELLET_CODE) {
@@ -84,18 +89,20 @@ void Level::loadLevelResources()
                 else if (boardData[i][j] == Environment::ENEMY_CODE) {
                     enemies.push_back(new Enemy(j, i));
                 }
-                else if (boardData[i][j] == Environment::BULLET_CODE) {
-                    bullets.push_back(new Bullet(j, i));
+                else if (boardData[i][j] == Environment::WEAPON_CODE) {
+                    bullets.push_back(new Weapon(j, i));
                 }
             }
 
             // Set Position
             boardItems[i][j].setPos(Environment::TILE_SCALE + j * Environment::TILE_SCALE, Environment::TILE_SCALE + i * Environment::TILE_SCALE);
 
+            // Add to scene
             levelScene->addItem(&boardItems[i][j]);
         }
     }
 
+    // Load into the scene
     loadCollectibles();
     loadPlayer(7, 2);
     loadEnemies();
@@ -130,9 +137,9 @@ void Level::loadEnemies()
 void Level::watch()
 {
     while(player->health != 0) {
-           // TODO: shorter duration
            UI::delay(500);
 
+           // Move enemies
            for (int i = 0; i < enemies.size(); i++) {
                int row = enemies[i]->y;
                int column = enemies[i]->x;

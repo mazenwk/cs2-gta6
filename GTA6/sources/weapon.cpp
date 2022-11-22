@@ -1,7 +1,7 @@
 #include "headers/constants.h"
-#include "headers/bullet.h"
+#include "headers/weapon.h"
 
-Bullet::Bullet(int x, int y)
+Weapon::Weapon(int x, int y)
 {
     // Set Image
     QPixmap image(Resources::TILES_DIR + "weapon.png");
