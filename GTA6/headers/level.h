@@ -77,9 +77,6 @@ private:
     /**
      * @brief The main player object
      */
-
-    QList<QGraphicsPixmapItem *> hearts;
-
     Player* player;
 
     /**
@@ -108,6 +105,21 @@ private:
      * @brief Loads the enemies into the scene
      */
     void loadEnemies();
+
+    /**
+     * @brief Hanldes the enemies lives and movmenents
+     */
+    void handleEnemies();
+
+    /**
+     * @brief Handles the player collisions
+     */
+    void handlePlayerCollisions();
+
+    /**
+     * @brief Updates the UI after handlers
+     */
+    void updateUI();
 };
 
 #endif // LEVEL_H

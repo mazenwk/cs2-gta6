@@ -28,12 +28,29 @@ public:
      * Player does not receive damage when true
      */
     bool isGodMode{ false };
+
+    /**
+     * @brief Damages the player by one heart if not in god mode
+     */
+    void damage();
+
+    /**
+     * @brief Attacks the nearest enemy
+     */
+    void attack();
+
+    /**
+     * @brief Changes the player appearance to hold weapons
+     */
+    void change_app();
+
 public slots:
     /**
      * @brief Controls the player movement by responding to user input and calls handleCollisions()
      * @param event The keypress event
      */
     void keyPressEvent(QKeyEvent* event);
+
 private:
     /**
      * @brief The current row value of the player
@@ -51,29 +68,9 @@ private:
     int data[15][15];
 
     /**
-     * @brief Hanldes the current collisions with the player
-     */
-    void handleCollisions();
-
-    /**
-     * @brief Damages the player by one heart if not in god mode
-     */
-    void damage();
-
-    /**
      * @brief Kills the player
      */
     void die();
-
-    /**
-     * @brief Attacks the nearest enemy
-     */
-    void attack();
-
-    void change_app();
-
-
-    void delay(int n);
 };
 
 #endif // PLAYER_H

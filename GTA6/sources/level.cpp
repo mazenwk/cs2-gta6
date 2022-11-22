@@ -136,26 +136,6 @@ void Level::loadPlayer(int x, int y)
     }
 
     player->setFlag(QGraphicsPixmapItem::ItemIsFocusable);
-
-
-    //either i or j = 0
-
-            QPixmap heart(Resources::TILES_DIR + "Ice Creams.png");
-            heart = heart.scaledToWidth(Environment::TILE_SCALE);
-            heart = heart.scaledToHeight(Environment::TILE_SCALE);
-
-
-            for(int i=0; i < hearts.size();i++)
-            {
-                hearts[i]= new QGraphicsPixmapItem();
-                hearts[i]->setPixmap(heart);
-                hearts[i]->setPos(Environment::TILE_SCALE + 0 * Environment::TILE_SCALE, Environment::TILE_SCALE + i * Environment::TILE_SCALE);
-
-               levelScene->addItem( hearts[i]);
-            }
-
-
-
 }
 
 void Level::loadEnemies()
@@ -168,54 +148,99 @@ void Level::loadEnemies()
 void Level::watch()
 {
     while(player->health != 0) {
-           UI::delay(250);
 
-           // Remove hearts
-           if (player->health != playerLives.count()) {
-               levelScene->removeItem(playerLives[playerLives.count() - 1]);
-               playerLives.removeAt(playerLives.count() - 1);
-           }
+        handleEnemies();
+        handlePlayerCollisions();
+        updateUI();
 
-           // Move enemies
-           for (int i = 0; i < enemies.size(); i++) {
-               int row = enemies[i]->y;
-               int column = enemies[i]->x;
+        UI::delay(250);
+    }
+}
 
-               srand((unsigned) time(NULL));
-               int randmov;
+void Level::handleEnemies()
+{
+    for (int i = 0; i < enemies.size(); i++) {
 
-               randmov = (1+(rand() * i)%4);
-               switch(randmov)
-               {
-                   case 1: //move to the right
-                   if (boardData[row + 1][column] >= 0) {
-                       enemies[i]->y++;
-                   }
-                   break;
+        // Change enemy appearance
+        if (enemies[i]->health < 2) {
+            enemies[i]->changeAppearanceToDamaged();
+        }
 
-                   case 2: //move to the left
-                   if (boardData[row - 1][column] >= 0) {
-                       enemies[i]->y--;
-                   }
-                   break;
+        // --------------------------------------------------------------------- Move enemies ----------------------------------------------------------------------
+        int row = enemies[i]->y;
+        int column = enemies[i]->x;
 
-                   case 3: //move up
-                   if (boardData[row][column + 1] >= 0) {
-                       enemies[i]->x++;
-                   }
-                   break;
+        srand((unsigned) time(NULL));
+        int randmov;
 
-                   case 4: //move down
-                   if (boardData[row][column - 1] >= 0) {
-                       enemies[i]->x--;
-                   }
-                   break;
-               }
+        randmov = (1+(rand() * i)%4);
+        switch(randmov)
+        {
+            case 1: //move to the right
+            if (boardData[row + 1][column] >= 0) {
+                enemies[i]->y++;
+            }
+            break;
 
-               enemies[i]->setPos(Environment::TILE_SCALE + enemies[i]->x * Environment::TILE_SCALE, Environment::TILE_SCALE + enemies[i]->y * Environment::TILE_SCALE);
-           }
-       }
-   }
+            case 2: //move to the left
+            if (boardData[row - 1][column] >= 0) {
+                enemies[i]->y--;
+            }
+            break;
+
+            case 3: //move up
+            if (boardData[row][column + 1] >= 0) {
+                enemies[i]->x++;
+            }
+            break;
+
+            case 4: //move down
+            if (boardData[row][column - 1] >= 0) {
+                enemies[i]->x--;
+            }
+            break;
+        }
+
+        enemies[i]->setPos(Environment::TILE_SCALE + enemies[i]->x * Environment::TILE_SCALE, Environment::TILE_SCALE + enemies[i]->y * Environment::TILE_SCALE);
+        //  ---------------------------------------------------------------------------------------------------------------------------------------------------------
+    }
+}
+
+void Level::handlePlayerCollisions()
+{
+    QList<QGraphicsItem*> playerCollisions = player->collidingItems();
+    for (int i = 0; i < playerCollisions.size(); i++)
+    {
+        if (str_type(*playerCollisions[i]) == typeid(Weapon).name()) {
+            player->attack();
+            levelScene->removeItem(playerCollisions[i]);
+            // change apperence
+                player->change_app();
+                UI::delay(400);
+                QPixmap image(Resources::ENTITIES_DIR + "noweaponkid.png");
+                image = image.scaledToWidth(Environment::TILE_SCALE);
+                image = image.scaledToHeight(Environment::TILE_SCALE);
+                player->setPixmap(image);
+        } else if (str_type(*playerCollisions[i]) == typeid(Enemy).name()) {
+            player->damage();
+            // TODO: Reset player & enemy positions
+        } else if (str_type(*playerCollisions[i]) == typeid(PowerPellet).name()) {
+            player->isGodMode = true;
+            levelScene->removeItem(playerCollisions[i]);
+            UI::delay(5);
+            player->isGodMode = false;
+        }
+    }
+}
+
+void Level::updateUI()
+{
+    // Remove player hearts
+    if (player->health != playerLives.count()) {
+        levelScene->removeItem(playerLives[playerLives.count() - 1]);
+        playerLives.removeAt(playerLives.count() - 1);
+    }
+}
 
 Level::~Level()
 {

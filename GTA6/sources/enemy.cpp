@@ -17,7 +17,7 @@ Enemy::Enemy(int x, int y)
     this->x = x;
     this->y = y;
 }
-void Enemy::change_app()
+void Enemy::changeAppearanceToDamaged()
 {
     QPixmap image(Resources::ENTITIES_DIR + "enemy 2.png");
     image = image.scaledToWidth(Environment::TILE_SCALE);

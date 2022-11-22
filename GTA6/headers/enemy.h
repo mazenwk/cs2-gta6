@@ -19,6 +19,11 @@ public:
     Enemy(int x, int y);
 
     /**
+     * @brief The enemy health
+     */
+    int health { 2 };
+
+    /**
      * @brief The x position of the enemy
      */
     int x;
@@ -27,8 +32,11 @@ public:
      * @brief The y position of the enemy
      */
     int y;
-    //change apperence
-    void change_app();
+
+    /**
+     * @brief Changes the enemy appearance to damaged
+     */
+    void changeAppearanceToDamaged();
 };
 
 #endif // ENEMY_H

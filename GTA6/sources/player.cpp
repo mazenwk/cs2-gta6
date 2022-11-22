@@ -49,36 +49,6 @@ void Player::keyPressEvent(QKeyEvent* event)
 
     // Set new position
     setPos(Environment::TILE_SCALE + column * Environment::TILE_SCALE, Environment::TILE_SCALE + row * Environment::TILE_SCALE);
-
-    // Handle current collisions
-    handleCollisions();
-}
-
-void Player::handleCollisions()
-{
-    QList<QGraphicsItem*> items = collidingItems();
-    for (int i = 0; i < items.size(); i++)
-    {
-        if (str_type(*items[i]) == typeid(Weapon).name()) {
-            attack();
-            scene()->removeItem(items[i]);
-            // change apperence
-                change_app();
-                delay(400);
-                QPixmap image(Resources::ENTITIES_DIR + "noweaponkid.png");
-                image = image.scaledToWidth(Environment::TILE_SCALE);
-                image = image.scaledToHeight(Environment::TILE_SCALE);
-                setPixmap(image);
-        } else if (str_type(*items[i]) == typeid(Enemy).name()) {
-            damage();
-            // TODO: Reset player & enemy positions
-        } else if (str_type(*items[i]) == typeid(PowerPellet).name()) {
-            isGodMode = true;
-            scene()->removeItem(items[i]);
-            delay(5);
-            isGodMode = false;
-        }
-    }
 }
 
 void Player::damage()
@@ -91,10 +61,11 @@ void Player::damage()
     }
 }
 
-void Player::die()
+void Player::attack()
 {
-    scene()->removeItem(this);
+    // Euclidean distance for closest enemy
 }
+
 void Player::change_app()
 {
     QPixmap image(Resources::ENTITIES_DIR + "with weapons kid.png");
@@ -102,14 +73,8 @@ void Player::change_app()
     image = image.scaledToHeight(Environment::TILE_SCALE);
     setPixmap(image);
 }
-void Player::attack()
-{
-    // Euclidean distance for closest enemy
-}
 
-void Player::delay(int n)
+void Player::die()
 {
-    QTime dieTime= QTime::currentTime().addMSecs(n);
-    while (QTime::currentTime() < dieTime)
-        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+    scene()->removeItem(this);
 }
