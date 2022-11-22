@@ -27,6 +27,8 @@ public:
      * @brief The y position of the enemy
      */
     int y;
+    //change apperence
+    void change_app();
 };
 
 #endif // ENEMY_H
