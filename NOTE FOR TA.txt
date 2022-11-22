@@ -1,0 +1,2 @@
+If you're on MAC the game might not work due to the paths to the images
+headers/constants.h including the paths that might need to be changed
