@@ -124,6 +124,17 @@ void Level::loadPlayer(int x, int y)
     player = new Player(y, x, boardData);
     levelScene->addItem(player);
 
+    for (int i = 0; i < player->health; ++i) {
+        QPixmap heart(Resources::UI_DIR + "heart.png");
+        heart = heart.scaledToWidth(Environment::TILE_SCALE);
+        heart = heart.scaledToHeight(Environment::TILE_SCALE);
+
+        playerLives.append(new QGraphicsPixmapItem());
+        playerLives[i]->setPixmap(heart);
+        playerLives[i]->setPos(Environment::TILE_SCALE + (Environment::BOARD_WIDTH + 1 + i) * Environment::TILE_SCALE, Environment::TILE_SCALE + 0 * Environment::TILE_SCALE);
+        levelScene->addItem(playerLives[i]);
+    }
+
     player->setFlag(QGraphicsPixmapItem::ItemIsFocusable);
 }
 
@@ -137,7 +148,13 @@ void Level::loadEnemies()
 void Level::watch()
 {
     while(player->health != 0) {
-           UI::delay(500);
+           UI::delay(250);
+
+           // Remove hearts
+           if (player->health != playerLives.count()) {
+               levelScene->removeItem(playerLives[playerLives.count() - 1]);
+               playerLives.removeAt(playerLives.count() - 1);
+           }
 
            // Move enemies
            for (int i = 0; i < enemies.size(); i++) {
@@ -183,13 +200,20 @@ void Level::watch()
 Level::~Level()
 {
     delete player;
+
     for (int i = 0; i < powerPellets.size(); i++) {
         delete powerPellets[i];
     }
+
     for (int i = 0; i < enemies.size(); i++) {
         delete enemies[i];
     }
+
     for (int i = 0; i < bullets.size(); i++) {
         delete bullets[i];
+    }
+
+    for (int i = 0; i < playerLives.size(); i++) {
+        delete playerLives[i];
     }
 }

@@ -51,7 +51,7 @@ void GameWindow::loadMainMenu()
     Button* playButton = new Button(QString("Play"));
     playButton->setPos(100, 200);
     mainMenuScene->addItem(playButton);
-    QObject::connect(playButton, SIGNAL(clicked()), this, SLOT(play()), Qt::QueuedConnection);
+    QObject::connect(playButton, SIGNAL(clicked()), this, SLOT(btnPlay()), Qt::QueuedConnection);
 
 
     Button* optionsButton = new Button(QString("Options"));
@@ -62,7 +62,7 @@ void GameWindow::loadMainMenu()
     Button* quitButton = new Button(QString("Quit"));
     quitButton->setPos(100, 400);
     mainMenuScene->addItem(quitButton);
-    QObject::connect(quitButton, SIGNAL(clicked()), this, SLOT(quit()), Qt::QueuedConnection);
+    QObject::connect(quitButton, SIGNAL(clicked()), this, SLOT(btnQuit()), Qt::QueuedConnection);
     // ----------------------------------------------------------------
 }
 
@@ -83,7 +83,7 @@ void GameWindow::displayGameOverWindow()
     Button* playAgain = new Button(QString("Play Again"));
     playAgain->setPos(410, 300);
     currentLevel->levelScene->addItem(playAgain);
-    Button::connect(playAgain, SIGNAL(clicked()), this, SLOT(retryLevel()));
+    Button::connect(playAgain, SIGNAL(clicked()), this, SLOT(btnRetryLevel()));
 
     // Create quit button
     Button* quit = new Button(QString("Quit"));
@@ -127,7 +127,7 @@ void GameWindow::btnPlay()
     Button* backButton = new Button("Back");
     backButton->setPos(25, 75);
     levelSelectionScene->addItem(backButton);
-    QObject::connect(backButton, SIGNAL(clicked()), this, SLOT(back()), Qt::QueuedConnection);
+    QObject::connect(backButton, SIGNAL(clicked()), this, SLOT(btnBack()), Qt::QueuedConnection);
     // ----------------------------------------------------------------
 
     // -------------------------- Add Levels --------------------------
@@ -139,7 +139,7 @@ void GameWindow::btnPlay()
         levelButton->setData(0, levels[i]);
         levelButton->setPos(100, 200 + (i * 200));
         levelSelectionScene->addItem(levelButton);
-        QObject::connect(levelButton, SIGNAL(clicked()), this, SLOT(loadLevel()), Qt::QueuedConnection);
+        QObject::connect(levelButton, SIGNAL(clicked()), this, SLOT(btnLoadLevel()), Qt::QueuedConnection);
     }
     // ----------------------------------------------------------------
 }

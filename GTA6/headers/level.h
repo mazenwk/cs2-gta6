@@ -70,6 +70,11 @@ private:
     QList<Weapon*> bullets;
 
     /**
+     * @brief The current player lives
+     */
+    QList<QGraphicsPixmapItem*> playerLives;
+
+    /**
      * @brief The main player object
      */
     Player* player;
