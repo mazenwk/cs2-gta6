@@ -1,6 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "headers/enemy.h"
+
 #include <QKeyEvent>
 #include <QObject>
 #include <qgraphicsitem.h>
@@ -37,12 +39,12 @@ public:
     /**
      * @brief Attacks the nearest enemy
      */
-    void attack();
+    void attack(QList<Enemy*> enemies);
 
     /**
      * @brief Changes the player appearance to hold weapons
      */
-    void change_app();
+    void changeAppearance();
 
 public slots:
     /**
@@ -71,6 +73,22 @@ private:
      * @brief Kills the player
      */
     void die();
+
+    /**
+     * @brief Handles the player collisions
+     */
+    void handleCollisions();
+
+    /**
+     * @brief Manages god mode timer
+     */
+    void godMode();
+
+    /**
+     * @brief delay
+     * @param n
+     */
+    void delay(int n);
 };
 
 #endif // PLAYER_H

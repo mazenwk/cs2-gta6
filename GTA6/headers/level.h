@@ -34,6 +34,11 @@ public:
     QString name;
 
     /**
+     * @brief True if the player won
+     */
+    bool playerWon { false };
+
+    /**
      * @brief Watches the game.
      * Moves the enemies and does health checks.
      * Runs separately

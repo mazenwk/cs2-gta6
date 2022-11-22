@@ -86,12 +86,13 @@ void GameWindow::displayGameOverWindow()
     Button::connect(playAgain, SIGNAL(clicked()), this, SLOT(btnRetryLevel()));
 
     // Create quit button
-    Button* quit = new Button(QString("Quit"));
+    Button* quit = new Button(QString("Return"));
     quit->setPos(410, 375);
     currentLevel->levelScene->addItem(quit);
     Button::connect(quit, SIGNAL(clicked()), this, SLOT(btnReturnToMenu()));
 
-    QGraphicsTextItem* overText = new QGraphicsTextItem("GAME OVER!");
+    // Add Game over/ Won text
+    QGraphicsTextItem* overText = new QGraphicsTextItem((currentLevel->playerWon ? "YOU WON!" : "GAME OVER!"));
     QFont* font = new QFont;
     overText->setPos(380, 210);
     font->setPointSize(32);
@@ -100,6 +101,28 @@ void GameWindow::displayGameOverWindow()
     overText->setDefaultTextColor(Qt::white);
 
     currentLevel->levelScene->addItem(overText);
+
+    if (currentLevel->playerWon) {
+        QPixmap winImage(Resources::UI_DIR + "kevin-win.png");
+        winImage = winImage.scaledToWidth(280);
+        winImage = winImage.scaledToHeight(170);
+
+        QGraphicsPixmapItem* winItem = new QGraphicsPixmapItem(winImage);
+        winItem->setPos(350, 470);
+
+        currentLevel->levelScene->addItem(winItem);
+    } else {
+        QPixmap loseImage(Resources::UI_DIR + "kevin-lose.jpg");
+        loseImage = loseImage.scaledToWidth(250);
+        loseImage = loseImage.scaledToHeight(250);
+
+        QGraphicsPixmapItem* loseItem = new QGraphicsPixmapItem(loseImage);
+        loseItem->setPos(380, 450);
+
+        currentLevel->levelScene->addItem(loseItem);
+    }
+
+
 }
 
 void GameWindow::btnPlay()

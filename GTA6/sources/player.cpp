@@ -1,11 +1,11 @@
 #include "headers/constants.h"
+#include "headers/enemy.h"
 #include "headers/player.h"
 #include "headers/powerpellet.h"
-#include "headers/weapon.h"
-#include "headers/enemy.h"
 
 #include <QGraphicsScene>
 #include <QCoreApplication>
+#include <QtMath>
 #include <QWidget>
 
 Player::Player(int x, int y, int boardData[Environment::BOARD_HEIGHT][Environment::BOARD_WIDTH])
@@ -49,6 +49,34 @@ void Player::keyPressEvent(QKeyEvent* event)
 
     // Set new position
     setPos(Environment::TILE_SCALE + column * Environment::TILE_SCALE, Environment::TILE_SCALE + row * Environment::TILE_SCALE);
+
+    handleCollisions();
+}
+
+void Player::handleCollisions()
+{
+    QList<QGraphicsItem*> playerCollisions = collidingItems();
+
+    for (int i = 0; i < playerCollisions.size(); i++)
+    {
+        if (str_type(*playerCollisions[i]) == typeid(Enemy).name()) {
+            damage();
+            // TODO: Reset player & enemy positions
+        } else if (str_type(*playerCollisions[i]) == typeid(PowerPellet).name()) {
+            scene()->removeItem(playerCollisions[i]);
+            godMode();
+        }
+    }
+}
+
+void Player::godMode()
+{
+    // Separate function to avoid delaying all collision managing
+    isGodMode = true;
+    for (int i = 0; i < 5; ++i) {
+        UI::delay(1000);
+    }
+    isGodMode = false;
 }
 
 void Player::damage()
@@ -61,12 +89,25 @@ void Player::damage()
     }
 }
 
-void Player::attack()
+void Player::attack(QList<Enemy*> enemies)
 {
-    // Euclidean distance for closest enemy
+    int closestEnemyIndex = 0;
+    int minDistance = INT_MAX;
+
+    for (int i = 0; i < enemies.size(); ++i) {
+        int distance = qSqrt( qPow((row - enemies[i]->y), 2) + qPow((column - enemies[i]->x), 2));
+
+        if (distance < minDistance) {
+            minDistance = distance;
+            closestEnemyIndex = i;
+        }
+    }
+
+    enemies[closestEnemyIndex]->damage();
+
 }
 
-void Player::change_app()
+void Player::changeAppearance()
 {
     QPixmap image(Resources::ENTITIES_DIR + "with weapons kid.png");
     image = image.scaledToWidth(Environment::TILE_SCALE);
@@ -77,4 +118,11 @@ void Player::change_app()
 void Player::die()
 {
     scene()->removeItem(this);
+}
+
+void Player::delay(int n)
+{
+    QTime dieTime= QTime::currentTime().addSecs(n);
+    while (QTime::currentTime() < dieTime)
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }

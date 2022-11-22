@@ -34,9 +34,20 @@ public:
     int y;
 
     /**
+     * @brief Damages the enemy and changes its appearance
+     */
+    void damage();
+
+private:
+    /**
      * @brief Changes the enemy appearance to damaged
      */
     void changeAppearanceToDamaged();
+
+    /**
+     * @brief Kills the enemy
+     */
+    void die();
 };
 
 #endif // ENEMY_H

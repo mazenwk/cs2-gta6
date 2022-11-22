@@ -17,10 +17,26 @@ Enemy::Enemy(int x, int y)
     this->x = x;
     this->y = y;
 }
+
+void Enemy::damage()
+{
+    health--;
+    if (health <= 0) {
+        die();
+    }
+
+    changeAppearanceToDamaged();
+}
+
 void Enemy::changeAppearanceToDamaged()
 {
     QPixmap image(Resources::ENTITIES_DIR + "enemy 2.png");
     image = image.scaledToWidth(Environment::TILE_SCALE);
     image = image.scaledToHeight(Environment::TILE_SCALE);
     setPixmap(image);
+}
+
+void Enemy::die()
+{
+    scene()->removeItem(this);
 }

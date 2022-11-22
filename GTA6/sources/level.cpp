@@ -148,24 +148,22 @@ void Level::loadEnemies()
 void Level::watch()
 {
     while(player->health != 0) {
-
         handleEnemies();
         handlePlayerCollisions();
         updateUI();
 
-        UI::delay(250);
+        if (enemies.size() == 0) {
+            playerWon = true;
+            break;
+        }
+
+        UI::delay(100);
     }
 }
 
 void Level::handleEnemies()
 {
     for (int i = 0; i < enemies.size(); i++) {
-
-        // Change enemy appearance
-        if (enemies[i]->health < 2) {
-            enemies[i]->changeAppearanceToDamaged();
-        }
-
         // --------------------------------------------------------------------- Move enemies ----------------------------------------------------------------------
         int row = enemies[i]->y;
         int column = enemies[i]->x;
@@ -203,6 +201,11 @@ void Level::handleEnemies()
 
         enemies[i]->setPos(Environment::TILE_SCALE + enemies[i]->x * Environment::TILE_SCALE, Environment::TILE_SCALE + enemies[i]->y * Environment::TILE_SCALE);
         //  ---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        // Remove dead enemies
+        if (enemies[i]->health <= 0) {
+            enemies.removeAt(i);
+        }
     }
 }
 
@@ -212,23 +215,15 @@ void Level::handlePlayerCollisions()
     for (int i = 0; i < playerCollisions.size(); i++)
     {
         if (str_type(*playerCollisions[i]) == typeid(Weapon).name()) {
-            player->attack();
+            player->attack(enemies);
             levelScene->removeItem(playerCollisions[i]);
             // change apperence
-                player->change_app();
+                player->changeAppearance();
                 UI::delay(400);
                 QPixmap image(Resources::ENTITIES_DIR + "noweaponkid.png");
                 image = image.scaledToWidth(Environment::TILE_SCALE);
                 image = image.scaledToHeight(Environment::TILE_SCALE);
                 player->setPixmap(image);
-        } else if (str_type(*playerCollisions[i]) == typeid(Enemy).name()) {
-            player->damage();
-            // TODO: Reset player & enemy positions
-        } else if (str_type(*playerCollisions[i]) == typeid(PowerPellet).name()) {
-            player->isGodMode = true;
-            levelScene->removeItem(playerCollisions[i]);
-            UI::delay(5);
-            player->isGodMode = false;
         }
     }
 }
