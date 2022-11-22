@@ -11,7 +11,7 @@
 
 namespace Resources {
     // resources directory is copied to the build folder using qmake commands
-    // QDir::currentPath() + "\\resources\\XXX
+    // WINDOWS: QDir::currentPath() + "\\resources\\XXX
     /**
      * @brief The directory of levels text files
      */
