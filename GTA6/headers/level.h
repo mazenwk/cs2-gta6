@@ -10,6 +10,8 @@
 #include <QGraphicsView>
 #include <QObject>
 #include <cstdlib>
+#include <set>
+#include <float.h>
 
 /**
  * @brief The Level class
@@ -131,6 +133,7 @@ private:
      * @brief A* graph
      */
     typedef std::pair<int,int> Pair;
+    typedef std::pair<double,std::pair<int,int> > pPair;
 
     struct cell {
             // Row and Column index of its parent
@@ -139,8 +142,8 @@ private:
             double f, g, h;
     };
 
-    int ROW = Environment::BOARD_HEIGHT;
-    int COL = Environment::BOARD_WIDTH;
+    //int ROW = Environment::BOARD_HEIGHT;
+    //int COL = Environment::BOARD_WIDTH;
     std::stack<Pair> Pathfinal;
     bool isValid(int row, int col);
     bool isUnBlocked (int grid[][Environment::BOARD_WIDTH], int row,int col);
@@ -148,6 +151,7 @@ private:
     double calculateHValue(int row, int col, Pair dest);
     void tracePath(cell cellDetails[][Environment::BOARD_WIDTH], Pair dest);
     void astarSearch(int grid[][Environment::BOARD_WIDTH], Pair src, Pair dest);
+    void move();
 };
 
 #endif // LEVEL_H
