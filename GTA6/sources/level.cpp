@@ -237,6 +237,81 @@ void Level::updateUI()
     }
 }
 
+
+int ROW = Environment::BOARD_HEIGHT;
+int COL = Environment::BOARD_WIDTH;
+
+bool Level::isValid(int row, int col)
+{
+    // Returns true if row number and column number is in range
+         return (row >= 0) && (row < Environment::BOARD_HEIGHT) && (col >= 0) && (col < Environment::BOARD_WIDTH);
+}
+
+// A Function to check whether the given cell is blocked or not
+bool Level::isUnBlocked(int grid[][Environment::BOARD_WIDTH], int row,int col)
+{
+    //Retur true if cell is not blocked
+    if(grid[row][col] >= 0)
+    {
+        return(true);
+    }
+    else
+    {
+        return(false);
+    }
+}
+
+
+bool Level::isDestination (int row,int col, Pair dest)
+{
+    if(row == dest.first && col == dest.second)
+    {
+        return(true);
+    }
+    else
+    {
+        return(false);
+    }
+}
+
+double Level::calculateHValue(int row, int col, Pair dest)
+{
+    //Return using the distance formula
+    return((double)sqrt((row - dest.first) * (row - dest.first) + (col - dest.second) * (col - dest.second)));
+}
+
+void Level::tracePath(cell cellDetails[][Environment::BOARD_WIDTH], Pair dest)
+{
+    int row = dest.first;
+    int col = dest.second;
+
+    std::stack<Pair> Path;
+    while(!(cellDetails[row][col].parent_i == row && cellDetails[row][col].parent_j == col))
+    {
+        Path.push(std::make_pair(row, col));
+        int temp_row = cellDetails[row][col].parent_i;
+        int temp_col = cellDetails[row][col].parent_j;
+        row = temp_row;
+        col = temp_col;
+    }
+    Path.push(std::make_pair(row, col));
+    Pathfinal = Path;
+    qDebug()<<Pathfinal.size()<<"before";
+    while(!Path.empty())
+    {
+        std::pair<int, int>p = Path.top();
+        Path.pop();
+        qDebug() <<"("<<p.first<< p.second<<")";
+    }
+    return;
+}
+/*
+void Level::astarSearch(int grid[][Environment::BOARD_WIDTH], Pair src, Pair dest)
+{
+
+}
+*/
+
 Level::~Level()
 {
     delete player;
@@ -257,3 +332,4 @@ Level::~Level()
         delete playerLives[i];
     }
 }
+

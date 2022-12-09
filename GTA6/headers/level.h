@@ -9,6 +9,7 @@
 
 #include <QGraphicsView>
 #include <QObject>
+#include <cstdlib>
 
 /**
  * @brief The Level class
@@ -125,6 +126,28 @@ private:
      * @brief Updates the UI after handlers
      */
     void updateUI();
+
+    /**
+     * @brief A* graph
+     */
+    typedef std::pair<int,int> Pair;
+
+    struct cell {
+            // Row and Column index of its parent
+            int parent_i,parent_j ;
+            // f = g + h
+            double f, g, h;
+    };
+
+    int ROW = Environment::BOARD_HEIGHT;
+    int COL = Environment::BOARD_WIDTH;
+    std::stack<Pair> Pathfinal;
+    bool isValid(int row, int col);
+    bool isUnBlocked (int grid[][Environment::BOARD_WIDTH], int row,int col);
+    bool isDestination (int row,int col, Pair dest);
+    double calculateHValue(int row, int col, Pair dest);
+    void tracePath(cell cellDetails[][Environment::BOARD_WIDTH], Pair dest);
+    void astarSearch(int grid[][Environment::BOARD_WIDTH], Pair src, Pair dest);
 };
 
 #endif // LEVEL_H
