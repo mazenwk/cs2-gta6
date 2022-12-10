@@ -79,7 +79,7 @@ void Level::loadLevelResources()
     roomImage = roomImage.scaledToHeight(Environment::TILE_SCALE);
     //---------------------------------------------------------------------------
 
-    QPixmap PowerPelletImage(Resources::TILES_DIR + "Ice Creams.png");  //powerpellet
+    QPixmap PowerPelletImage(Resources::TILES_DIR + "hearts.png");  //powerpellet
     interiorImage = interiorImage.scaledToWidth(Environment::TILE_SCALE);
     interiorImage = interiorImage.scaledToHeight(Environment::TILE_SCALE);
 
@@ -677,14 +677,37 @@ void Level::move()
         // graph
         //source send enemies location
 
+<<<<<<< Updated upstream
         Pair src = std::make_pair(row, column);
         Pair dest = std::make_pair(player->getrow(),player->getcol());
+=======
+    //enemies[i]->setPos(Environment::TILE_SCALE + enemies[i]->x * Environment::TILE_SCALE, Environment::TILE_SCALE + enemies[i]->y * Environment::TILE_SCALE);
+    //  ---------------------------------------------------------------------------------------------------------------------------------------------------------
+    Pair temp = Pathfinal.top();
+    if(Pathfinal.empty()==false)
+    {
+        Pathfinal.pop();
+        int ro =temp.first;
+        int col =temp.second;
+        qDebug() << "still moving";
+        qDebug() << "((" << ro<< ","<< col<<"))";
+        enemies[i]->setPos(Environment::TILE_SCALE+ro*Environment::TILE_SCALE,Environment::TILE_SCALE+col*Environment::TILE_SCALE);
+
+
+    // Remove dead enemies
+    if (enemies[i]->health <= 0) {
+        enemies.removeAt(i);
+
+    }
+    }
+>>>>>>> Stashed changes
 
         astarSearch(boardData,src,dest);
 
         enemies[i]->setPos(Environment::TILE_SCALE + enemies[i]->x * Environment::TILE_SCALE, Environment::TILE_SCALE + enemies[i]->y * Environment::TILE_SCALE);
         //  ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
+<<<<<<< Updated upstream
         Pathfinal.pop();
         Pair temp = Pathfinal.top();
         if(Pathfinal.empty()==false)
@@ -698,6 +721,8 @@ void Level::move()
             enemies[i]->y = row;
             enemies[i]->x = col;
         }
+=======
+>>>>>>> Stashed changes
 
         // Remove dead enemies
         if (enemies[i]->health <= 0) {
