@@ -554,7 +554,7 @@ void Level::astarSearch(int grid[][Environment::BOARD_WIDTH], Pair src, Pair des
                 }
             }
 
-            //----------- 5th Successor (North-East)------------
+            /*/----------- 5th Successor (North-East)------------
 
             if (isValid(i - 1, j + 1) == true) {
 
@@ -685,7 +685,7 @@ void Level::astarSearch(int grid[][Environment::BOARD_WIDTH], Pair src, Pair des
                         cellDetails[i + 1][j - 1].parent_j = j;
                     }
                 }
-            }
+            }*/
         }
 
         if (foundDest == false)
