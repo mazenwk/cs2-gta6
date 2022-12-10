@@ -126,3 +126,11 @@ void Player::delay(int n)
     while (QTime::currentTime() < dieTime)
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }
+int Player::getrow()
+{
+    return row;
+}
+int Player::getcol()
+{
+    return column;
+}

@@ -12,8 +12,10 @@ Level::Level(QString levelName)
     // Load scene
     loadLevelData();
     loadLevelResources();
+    /*QTimer * enemytimer = new QTimer();
+        connect(enemytimer,SIGNAL(timeout()),this,SLOT(move()));
+        enemytimer->start(500);*/
 
-    // graph
 
 }
 
@@ -151,7 +153,8 @@ void Level::loadEnemies()
 void Level::watch()
 {
     while(player->health != 0) {
-        handleEnemies();
+        //handleEnemies();
+        move();
         handlePlayerCollisions();
         updateUI();
 
@@ -653,16 +656,43 @@ void Level::astarSearch(int grid[][Environment::BOARD_WIDTH], Pair src, Pair des
 }
 void Level::move()
 {
+    for (int i = 0; i < enemies.size(); i++) {
+
+        int row = enemies[i]->y;
+        int column = enemies[i]->x;
+    // graph
+    //source send enemies location
+
+    Pair src = std::make_pair(row, column);
+    Pair dest = std::make_pair(player->getrow(),player->getcol());
+
+    astarSearch(boardData,src,dest);
+
+    enemies[i]->setPos(Environment::TILE_SCALE + enemies[i]->x * Environment::TILE_SCALE, Environment::TILE_SCALE + enemies[i]->y * Environment::TILE_SCALE);
+    //  ---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    // Remove dead enemies
+    if (enemies[i]->health <= 0) {
+        enemies.removeAt(i);
+
+    }
+    }
+
+
+
     Pair temp = Pathfinal.top();
     if(Pathfinal.empty()==false)
     {
         Pathfinal.pop();
-        int col =temp.first;
-        int row =temp.second;
+        int row =temp.first;
+        int col =temp.second;
         qDebug() << "still moving";
         qDebug() << "((" << row<< ","<< col<<"))";
         //setPos(Environment::TILE_SCALE+row*Environment::TILE_SCALE,Environment::TILE_SCALE+col*Environment::TILE_SCALE);
-}
+
+
+    }
+
 }
 
 Level::~Level()

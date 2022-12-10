@@ -12,6 +12,8 @@
 #include <cstdlib>
 #include <set>
 #include <float.h>
+#include <qgraphicsitem.h>
+#include <QTimer>
 
 /**
  * @brief The Level class
@@ -49,6 +51,7 @@ public:
     void watch();
 
     ~Level();
+
 
 private:
     /**

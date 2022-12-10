@@ -45,7 +45,14 @@ public:
      * @brief Changes the player appearance to hold weapons
      */
     void changeAppearance();
-
+    /**
+     * @brief get row
+     */
+    int getrow();
+    /**
+     * @brief get col
+     */
+    int getcol();
 public slots:
     /**
      * @brief Controls the player movement by responding to user input and calls handleCollisions()
