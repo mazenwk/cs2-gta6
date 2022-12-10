@@ -135,6 +135,8 @@ private:
      */
     void updateUI();
 
+    QGraphicsTextItem* godModeText;
+
     /**
      * @brief A* graph
      */

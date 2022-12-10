@@ -31,6 +31,10 @@ public:
      */
     bool isGodMode{ false };
 
+    bool moved { false };
+
+    bool damaged { false };
+
     /**
      * @brief Damages the player by one heart if not in god mode
      */
@@ -75,6 +79,8 @@ private:
      * @brief A copy of the current board data
      */
     int data[15][15];
+
+    int steps = 0;
 
     /**
      * @brief Kills the player

@@ -1,5 +1,7 @@
 #include "headers/level.h"
 
+#include <thread>
+
 Level::Level(QString levelName, QList<Enemy*> enemies)
 {
     // Create a new level
@@ -135,6 +137,17 @@ void Level::loadCollectibles()
     for (int i = 0; i < bullets.size(); i++) {
         levelScene->addItem(bullets[i]);
     }
+
+    godModeText = new QGraphicsTextItem("GOD MODE ON");
+    QFont* font = new QFont;
+    godModeText->setPos(1100, 210);
+    font->setPointSize(32);
+    font->setBold(true);
+    godModeText->setFont(*font);
+    godModeText->setDefaultTextColor(Qt::white);
+
+    levelScene->addItem(godModeText);
+    godModeText->setVisible(false);
 }
 
 void Level::loadPlayer(int x, int y)
@@ -166,9 +179,12 @@ void Level::loadEnemies()
 void Level::watch()
 {
     while(player->health != 0) {
-        UI::delay(1000);
+        UI::delay(100);
         //handleEnemies();
-        move();
+        if (player->moved) {
+            move();
+            player->moved = false;
+        }
         handlePlayerCollisions();
         updateUI();
 
@@ -243,7 +259,10 @@ void Level::handlePlayerCollisions()
                 image = image.scaledToHeight(Environment::TILE_SCALE);
                 player->setPixmap(image);
         } else  if (str_type(*playerCollisions[i]) == typeid(Enemy).name()) {
-            player->damage();
+                    if (!player->damaged) {
+                        player->damage();
+                        player->damaged = true;
+                    }
         }
     }
 }
@@ -254,6 +273,12 @@ void Level::updateUI()
     if (player->health != playerLives.count()) {
         levelScene->removeItem(playerLives[playerLives.count() - 1]);
         playerLives.removeAt(playerLives.count() - 1);
+    }
+
+    if (player->isGodMode) {
+        godModeText->setVisible(true);
+    } else if (godModeText->isVisible()) {
+        godModeText->setVisible(false);
     }
 }
 
@@ -670,39 +695,42 @@ void Level::astarSearch(int grid[][Environment::BOARD_WIDTH], Pair src, Pair des
 }
 void Level::move()
 {
-    for (int i = 0; i < enemies.size(); i++) {
+    try {
+        for (int i = 0; i < enemies.size(); i++) {
+            int row = enemies[i]->y;
+            int column = enemies[i]->x;
+            // graph
+            //source send enemies location
 
-        int row = enemies[i]->y;
-        int column = enemies[i]->x;
-        // graph
-        //source send enemies location
+            Pair src = std::make_pair(row, column);
+            Pair dest = std::make_pair(player->getrow(),player->getcol());
 
-        Pair src = std::make_pair(row, column);
-        Pair dest = std::make_pair(player->getrow(),player->getcol());
+            astarSearch(boardData,src,dest);
 
-        astarSearch(boardData,src,dest);
+            enemies[i]->setPos(Environment::TILE_SCALE + enemies[i]->x * Environment::TILE_SCALE, Environment::TILE_SCALE + enemies[i]->y * Environment::TILE_SCALE);
+            //  ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
-        enemies[i]->setPos(Environment::TILE_SCALE + enemies[i]->x * Environment::TILE_SCALE, Environment::TILE_SCALE + enemies[i]->y * Environment::TILE_SCALE);
-        //  ---------------------------------------------------------------------------------------------------------------------------------------------------------
-
-        Pathfinal.pop();
-        Pair temp = Pathfinal.top();
-        if(Pathfinal.empty()==false)
-        {
             Pathfinal.pop();
-            int row = temp.first;
-            int col = temp.second;
-            qDebug() << "still moving";
-            qDebug() << "((" << row<< ","<< col<<"))";
-            enemies[i]->setPos(Environment::TILE_SCALE+col*Environment::TILE_SCALE,Environment::TILE_SCALE+row*Environment::TILE_SCALE);
-            enemies[i]->y = row;
-            enemies[i]->x = col;
-        }
+            Pair temp = Pathfinal.top();
+            if(Pathfinal.empty()==false)
+            {
+                Pathfinal.pop();
+                int row = temp.first;
+                int col = temp.second;
+                qDebug() << "still moving";
+                qDebug() << "((" << row<< ","<< col<<"))";
+                enemies[i]->setPos(Environment::TILE_SCALE+col*Environment::TILE_SCALE,Environment::TILE_SCALE+row*Environment::TILE_SCALE);
+                enemies[i]->y = row;
+                enemies[i]->x = col;
+            }
 
-        // Remove dead enemies
-        if (enemies[i]->health <= 0) {
-            enemies.removeAt(i);
+            // Remove dead enemies
+            if (enemies[i]->health <= 0) {
+                enemies.removeAt(i);
+            }
         }
+    } catch (std::exception) {
+        // ignored
     }
 }
 

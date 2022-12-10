@@ -50,7 +50,12 @@ void Player::keyPressEvent(QKeyEvent* event)
 
     // Set new position
     setPos(Environment::TILE_SCALE + column * Environment::TILE_SCALE, Environment::TILE_SCALE + row * Environment::TILE_SCALE);
-
+    steps++;
+    if (steps == 2) {
+        moved = true;
+        steps = 0;
+    }
+    damaged = false;
     handleCollisions();
 }
 
@@ -60,10 +65,7 @@ void Player::handleCollisions()
 
     for (int i = 0; i < playerCollisions.size(); i++)
     {
-        if (str_type(*playerCollisions[i]) == typeid(Enemy).name()) {
-            damage();
-            // TODO: Reset player & enemy positions
-        } else if (str_type(*playerCollisions[i]) == typeid(PowerPellet).name()) {
+        if (str_type(*playerCollisions[i]) == typeid(PowerPellet).name()) {
             if (!isGodMode) {
                 scene()->removeItem(playerCollisions[i]);
 
