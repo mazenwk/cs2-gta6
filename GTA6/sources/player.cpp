@@ -3,6 +3,7 @@
 #include "headers/player.h"
 #include "headers/powerpellet.h"
 
+#include <thread>
 #include <QGraphicsScene>
 #include <QCoreApplication>
 #include <QtMath>
@@ -63,15 +64,18 @@ void Player::handleCollisions()
             damage();
             // TODO: Reset player & enemy positions
         } else if (str_type(*playerCollisions[i]) == typeid(PowerPellet).name()) {
-            scene()->removeItem(playerCollisions[i]);
-            godMode();
+            if (!isGodMode) {
+                scene()->removeItem(playerCollisions[i]);
+
+                std::thread godModeThread(&Player::godMode, this);
+                godModeThread.detach();
+            }
         }
     }
 }
 
 void Player::godMode()
 {
-    // Separate function to avoid delaying all collision managing
     isGodMode = true;
     for (int i = 0; i < 5; ++i) {
         UI::delay(1000);
