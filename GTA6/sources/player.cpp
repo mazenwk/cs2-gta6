@@ -79,8 +79,6 @@ void Player::godMode()
     isGodMode = true;
     for (int i = 0; i < 5; ++i) {
         UI::delay(1000);
-        //timer--;
-        //timerText->setPlainText(QString::number(timer));
     }
     isGodMode = false;
 }
