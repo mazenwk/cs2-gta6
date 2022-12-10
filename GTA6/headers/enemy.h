@@ -6,10 +6,11 @@
 #include <stack>
 #include "headers/constants.h"
 
+
 /**
  * @brief The Enemy class
  */
-class Enemy : public QGraphicsPixmapItem
+class Enemy : public QGraphicsPixmapItem, public QObject
 {
 public:
     /**

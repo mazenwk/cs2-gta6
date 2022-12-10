@@ -1,5 +1,23 @@
 #include "headers/level.h"
 
+Level::Level(QString levelName, QList<Enemy*> enemies)
+{
+    // Create a new level
+    name = levelName;
+
+    // Create level scene
+    levelScene = new QGraphicsScene();
+    levelScene->setSceneRect(0 , 0, Environment::SCREEN_WIDTH, Environment::SCREEN_HEIGHT);
+
+    // Load scene
+    loadLevelData();
+    loadLevelResources();
+    for(int i = 0; i < enemies.size(); i++){
+    QTimer * enemytimer = new QTimer();
+        connect(enemytimer,SIGNAL(timeout()),enemies[i],SLOT(move()));
+        enemytimer->start(500);
+    }
+}
 Level::Level(QString levelName)
 {
     // Create a new level
@@ -12,11 +30,6 @@ Level::Level(QString levelName)
     // Load scene
     loadLevelData();
     loadLevelResources();
-    /*QTimer * enemytimer = new QTimer();
-        connect(enemytimer,SIGNAL(timeout()),this,SLOT(move()));
-        enemytimer->start(500);*/
-
-
 }
 
 void Level::loadLevelData()

@@ -6,6 +6,7 @@
 #include "headers/player.h"
 #include "headers/powerpellet.h"
 #include "headers/weapon.h"
+#include "headers/button.h"
 
 #include <QGraphicsView>
 #include <QObject>
@@ -14,11 +15,12 @@
 #include <float.h>
 #include <qgraphicsitem.h>
 #include <QTimer>
+#include <chrono>
 
 /**
  * @brief The Level class
  */
-class Level
+class Level: public QObject
 {
 public:
     /**
@@ -26,8 +28,9 @@ public:
      * Creates a new level with its own scene and entities
      * @param levelName
      */
-    Level(QString levelName);
+    Level(QString levelName,QList<Enemy*> enemies);
 
+    Level(QString levelName);
     /**
      * @brief The scene for this level
      */
