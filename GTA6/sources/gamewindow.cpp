@@ -33,6 +33,7 @@ void GameWindow::getAvailableLevelsNames()
     QDir dir(Resources::LEVELS_DIR);
     for (const QFileInfo &file : dir.entryInfoList(QDir::Files))
     {
+        // TODO: remove .txt from level name
         levels.append(file.fileName());
     }
 }
