@@ -1,7 +1,5 @@
 #include "headers/level.h"
 
-#include <thread>
-
 Level::Level(QString levelName, QList<Enemy*> enemies)
 {
     // Create a new level
@@ -81,7 +79,7 @@ void Level::loadLevelResources()
     roomImage = roomImage.scaledToHeight(Environment::TILE_SCALE);
     //---------------------------------------------------------------------------
 
-    QPixmap PowerPelletImage(Resources::TILES_DIR + "Ice Creams.png");  //powerpellet
+    QPixmap PowerPelletImage(Resources::TILES_DIR + "hearts.png");  //powerpellet
     interiorImage = interiorImage.scaledToWidth(Environment::TILE_SCALE);
     interiorImage = interiorImage.scaledToHeight(Environment::TILE_SCALE);
 
@@ -137,17 +135,6 @@ void Level::loadCollectibles()
     for (int i = 0; i < bullets.size(); i++) {
         levelScene->addItem(bullets[i]);
     }
-
-    godModeText = new QGraphicsTextItem("GOD MODE ON");
-    QFont* font = new QFont;
-    godModeText->setPos(1100, 210);
-    font->setPointSize(32);
-    font->setBold(true);
-    godModeText->setFont(*font);
-    godModeText->setDefaultTextColor(Qt::white);
-
-    levelScene->addItem(godModeText);
-    godModeText->setVisible(false);
 }
 
 void Level::loadPlayer(int x, int y)
@@ -179,12 +166,9 @@ void Level::loadEnemies()
 void Level::watch()
 {
     while(player->health != 0) {
-        UI::delay(100);
+        UI::delay(1000);
         //handleEnemies();
-        if (player->moved) {
-            move();
-            player->moved = false;
-        }
+        move();
         handlePlayerCollisions();
         updateUI();
 
@@ -259,10 +243,7 @@ void Level::handlePlayerCollisions()
                 image = image.scaledToHeight(Environment::TILE_SCALE);
                 player->setPixmap(image);
         } else  if (str_type(*playerCollisions[i]) == typeid(Enemy).name()) {
-                    if (!player->damaged) {
-                        player->damage();
-                        player->damaged = true;
-                    }
+            player->damage();
         }
     }
 }
@@ -273,12 +254,6 @@ void Level::updateUI()
     if (player->health != playerLives.count()) {
         levelScene->removeItem(playerLives[playerLives.count() - 1]);
         playerLives.removeAt(playerLives.count() - 1);
-    }
-
-    if (player->isGodMode) {
-        godModeText->setVisible(true);
-    } else if (godModeText->isVisible()) {
-        godModeText->setVisible(false);
     }
 }
 
@@ -695,42 +670,64 @@ void Level::astarSearch(int grid[][Environment::BOARD_WIDTH], Pair src, Pair des
 }
 void Level::move()
 {
-    try {
-        for (int i = 0; i < enemies.size(); i++) {
-            int row = enemies[i]->y;
-            int column = enemies[i]->x;
-            // graph
-            //source send enemies location
+    for (int i = 0; i < enemies.size(); i++) {
 
-            Pair src = std::make_pair(row, column);
-            Pair dest = std::make_pair(player->getrow(),player->getcol());
+        int row = enemies[i]->y;
+        int column = enemies[i]->x;
+        // graph
+        //source send enemies location
 
-            astarSearch(boardData,src,dest);
+<<<<<<< Updated upstream
+        Pair src = std::make_pair(row, column);
+        Pair dest = std::make_pair(player->getrow(),player->getcol());
+=======
+    //enemies[i]->setPos(Environment::TILE_SCALE + enemies[i]->x * Environment::TILE_SCALE, Environment::TILE_SCALE + enemies[i]->y * Environment::TILE_SCALE);
+    //  ---------------------------------------------------------------------------------------------------------------------------------------------------------
+    Pair temp = Pathfinal.top();
+    if(Pathfinal.empty()==false)
+    {
+        Pathfinal.pop();
+        int ro =temp.first;
+        int col =temp.second;
+        qDebug() << "still moving";
+        qDebug() << "((" << ro<< ","<< col<<"))";
+        enemies[i]->setPos(Environment::TILE_SCALE+ro*Environment::TILE_SCALE,Environment::TILE_SCALE+col*Environment::TILE_SCALE);
 
-            enemies[i]->setPos(Environment::TILE_SCALE + enemies[i]->x * Environment::TILE_SCALE, Environment::TILE_SCALE + enemies[i]->y * Environment::TILE_SCALE);
-            //  ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
+    // Remove dead enemies
+    if (enemies[i]->health <= 0) {
+        enemies.removeAt(i);
+
+    }
+    }
+>>>>>>> Stashed changes
+
+        astarSearch(boardData,src,dest);
+
+        enemies[i]->setPos(Environment::TILE_SCALE + enemies[i]->x * Environment::TILE_SCALE, Environment::TILE_SCALE + enemies[i]->y * Environment::TILE_SCALE);
+        //  ---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+<<<<<<< Updated upstream
+        Pathfinal.pop();
+        Pair temp = Pathfinal.top();
+        if(Pathfinal.empty()==false)
+        {
             Pathfinal.pop();
-            Pair temp = Pathfinal.top();
-            if(Pathfinal.empty()==false)
-            {
-                Pathfinal.pop();
-                int row = temp.first;
-                int col = temp.second;
-                qDebug() << "still moving";
-                qDebug() << "((" << row<< ","<< col<<"))";
-                enemies[i]->setPos(Environment::TILE_SCALE+col*Environment::TILE_SCALE,Environment::TILE_SCALE+row*Environment::TILE_SCALE);
-                enemies[i]->y = row;
-                enemies[i]->x = col;
-            }
-
-            // Remove dead enemies
-            if (enemies[i]->health <= 0) {
-                enemies.removeAt(i);
-            }
+            int row = temp.first;
+            int col = temp.second;
+            qDebug() << "still moving";
+            qDebug() << "((" << row<< ","<< col<<"))";
+            enemies[i]->setPos(Environment::TILE_SCALE+col*Environment::TILE_SCALE,Environment::TILE_SCALE+row*Environment::TILE_SCALE);
+            enemies[i]->y = row;
+            enemies[i]->x = col;
         }
-    } catch (std::exception) {
-        // ignored
+=======
+>>>>>>> Stashed changes
+
+        // Remove dead enemies
+        if (enemies[i]->health <= 0) {
+            enemies.removeAt(i);
+        }
     }
 }
 
