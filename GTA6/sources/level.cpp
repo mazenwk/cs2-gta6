@@ -166,6 +166,7 @@ void Level::loadEnemies()
 void Level::watch()
 {
     while(player->health != 0) {
+        UI::delay(1000);
         //handleEnemies();
         move();
         handlePlayerCollisions();
@@ -175,8 +176,6 @@ void Level::watch()
             playerWon = true;
             break;
         }
-
-        UI::delay(100);
     }
 }
 
@@ -243,6 +242,8 @@ void Level::handlePlayerCollisions()
                 image = image.scaledToWidth(Environment::TILE_SCALE);
                 image = image.scaledToHeight(Environment::TILE_SCALE);
                 player->setPixmap(image);
+        } else  if (str_type(*playerCollisions[i]) == typeid(Enemy).name()) {
+            player->damage();
         }
     }
 }
@@ -673,39 +674,36 @@ void Level::move()
 
         int row = enemies[i]->y;
         int column = enemies[i]->x;
-    // graph
-    //source send enemies location
+        // graph
+        //source send enemies location
 
-    Pair src = std::make_pair(row, column);
-    Pair dest = std::make_pair(player->getrow(),player->getcol());
+        Pair src = std::make_pair(row, column);
+        Pair dest = std::make_pair(player->getrow(),player->getcol());
 
-    astarSearch(boardData,src,dest);
+        astarSearch(boardData,src,dest);
 
-    enemies[i]->setPos(Environment::TILE_SCALE + enemies[i]->x * Environment::TILE_SCALE, Environment::TILE_SCALE + enemies[i]->y * Environment::TILE_SCALE);
-    //  ---------------------------------------------------------------------------------------------------------------------------------------------------------
+        enemies[i]->setPos(Environment::TILE_SCALE + enemies[i]->x * Environment::TILE_SCALE, Environment::TILE_SCALE + enemies[i]->y * Environment::TILE_SCALE);
+        //  ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    // Remove dead enemies
-    if (enemies[i]->health <= 0) {
-        enemies.removeAt(i);
-
-    }
-    }
-
-
-
-    Pair temp = Pathfinal.top();
-    if(Pathfinal.empty()==false)
-    {
         Pathfinal.pop();
-        int row =temp.first;
-        int col =temp.second;
-        qDebug() << "still moving";
-        qDebug() << "((" << row<< ","<< col<<"))";
-        //setPos(Environment::TILE_SCALE+row*Environment::TILE_SCALE,Environment::TILE_SCALE+col*Environment::TILE_SCALE);
+        Pair temp = Pathfinal.top();
+        if(Pathfinal.empty()==false)
+        {
+            Pathfinal.pop();
+            int row = temp.first;
+            int col = temp.second;
+            qDebug() << "still moving";
+            qDebug() << "((" << row<< ","<< col<<"))";
+            enemies[i]->setPos(Environment::TILE_SCALE+col*Environment::TILE_SCALE,Environment::TILE_SCALE+row*Environment::TILE_SCALE);
+            enemies[i]->y = row;
+            enemies[i]->x = col;
+        }
 
-
+        // Remove dead enemies
+        if (enemies[i]->health <= 0) {
+            enemies.removeAt(i);
+        }
     }
-
 }
 
 Level::~Level()
