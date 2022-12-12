@@ -36,6 +36,11 @@ public:
      */
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 
+    /**
+     * @brief The text inside the button
+     */
+    QGraphicsTextItem* text;
+
 signals:
     /**
      * @brief clicked Clicked signal, fired when the button is clicked on
@@ -44,10 +49,6 @@ signals:
     void clicked();
 
 private:
-    /**
-     * @brief The text inside the button
-     */
-    QGraphicsTextItem* text;
 };
 
 #endif // BUTTON_H

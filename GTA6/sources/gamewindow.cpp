@@ -163,7 +163,7 @@ void GameWindow::btnPlay()
         Button* levelButton = new Button(QString(levels[i]));
         levelButton->setFlag(QGraphicsPixmapItem::ItemIsFocusable);
         levelButton->setData(0, levels[i]);
-        levelButton->setPos(100, 200 + (i * 200));
+        levelButton->setPos(100, 200 + (i * 100));
         levelSelectionScene->addItem(levelButton);
         QObject::connect(levelButton, SIGNAL(clicked()), this, SLOT(btnLoadLevel()), Qt::QueuedConnection);
     }
@@ -193,7 +193,7 @@ void GameWindow::btnOptions() {
     // ----------------------------------------------------------------
 
     // -------------------------- Add Option --------------------------
-    Button* extremeModeButton = new Button("Toggle Extreme Mode");
+    extremeModeButton = new Button(extremeMode ? "Toggle Extreme Mode: On" : "Toggle Extreme Mode: Off");
     extremeModeButton->setPos(100, 200);
     optionsScene->addItem(extremeModeButton);
     QObject::connect(extremeModeButton, SIGNAL(clicked()), this, SLOT(btnExtremeMode()), Qt::QueuedConnection);
@@ -202,6 +202,11 @@ void GameWindow::btnOptions() {
 
 void GameWindow::btnExtremeMode() {
     extremeMode = !extremeMode;
+    delete extremeModeButton;
+    extremeModeButton = new Button(extremeMode ? "Toggle Extreme Mode: On" : "Toggle Extreme Mode: Off");
+    extremeModeButton->setPos(100, 200);
+    optionsScene->addItem(extremeModeButton);
+    QObject::connect(extremeModeButton, SIGNAL(clicked()), this, SLOT(btnExtremeMode()), Qt::QueuedConnection);
 }
 
 void GameWindow::btnQuit()

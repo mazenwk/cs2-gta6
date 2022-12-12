@@ -28,7 +28,6 @@ public:
     void start();
 
 private:
-    bool extremeMode = false;
     /**
      * @brief The main menu scene
      */
@@ -39,6 +38,9 @@ private:
      */
     QGraphicsScene* levelSelectionScene {};
 
+    /**
+     * @brief The options scene
+     */
     QGraphicsScene* optionsScene {};
 
     /**
@@ -72,6 +74,17 @@ private:
      */
     void displayGameOverWindow();
 
+    /**
+     * @brief The extreme mode button.
+     * Used to change the button text depending on whether its on or off
+     */
+    Button* extremeModeButton;
+
+    /**
+     * @brief Whether extreme mode dificulity mode is on or not
+     */
+    bool extremeMode = false;
+
 private slots:
     /**
      * @brief Play button.
@@ -85,8 +98,14 @@ private slots:
      */
     void btnQuit();
 
+    /**
+     * @brief The options button.
+     */
     void btnOptions();
 
+    /**
+     * @brief The Extreme Difficulity Mode button.
+     */
     void btnExtremeMode();
 
     /**

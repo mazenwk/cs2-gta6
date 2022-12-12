@@ -26,10 +26,16 @@ public:
     /**
      * @brief Default parameterized constructor.
      * Creates a new level with its own scene and entities
-     * @param levelName
+     * @param levelName The level name
+     * @param extremeMode Whether extreme mode should be on or not
      */
     Level(QString levelName,QList<Enemy*> enemies, bool extremeMode = false);
 
+    /**
+     * @brief Alternative constructor
+     * @param levelName The level name
+     * @param extremeMode Whether extreme mode should be on or not
+     */
     Level(QString levelName, bool extremeMode = false);
     /**
      * @brief The scene for this level
@@ -55,10 +61,7 @@ public:
 
     ~Level();
 
-
 private:
-    bool extremeMode;
-
     /**
      * @brief The game board data
      */
@@ -94,6 +97,17 @@ private:
      * @brief The main player object
      */
     Player* player;
+
+    /**
+     * @brief Whether extreme difficulity mode is on or not
+     */
+    bool extremeMode;
+
+    /**
+     * @brief The god mode text.
+     * Displays whether or not god mode is on
+     */
+    QGraphicsTextItem* godModeText;
 
     /**
      * @brief Loads the board data from the level text file
@@ -137,8 +151,6 @@ private:
      */
     void updateUI();
 
-    QGraphicsTextItem* godModeText;
-
     /**
      * @brief A* graph
      */
@@ -155,12 +167,60 @@ private:
     //int ROW = Environment::BOARD_HEIGHT;
     //int COL = Environment::BOARD_WIDTH;
     std::stack<Pair> Pathfinal;
+
+    /**
+     * @brief Checks whether or not the given node is valid or not
+     * @param row
+     * @param col
+     * @return
+     */
     bool isValid(int row, int col);
+
+    /**
+     * @brief Checks whether or not the given node is blocked or not
+     * @param grid
+     * @param row
+     * @param col
+     * @return
+     */
     bool isUnBlocked (int grid[][Environment::BOARD_WIDTH], int row,int col);
+
+    /**
+     * @brief Checks whether or not the given node is the destination or not
+     * @param row
+     * @param col
+     * @param dest
+     * @return
+     */
     bool isDestination (int row,int col, Pair dest);
+
+    /**
+     * @brief Calculates the H value for the given node
+     * @param row
+     * @param col
+     * @param dest
+     * @return
+     */
     double calculateHValue(int row, int col, Pair dest);
+
+    /**
+     * @brief Traces the path from the current node to the given destination
+     * @param cellDetails
+     * @param dest
+     */
     void tracePath(cell cellDetails[][Environment::BOARD_WIDTH], Pair dest);
+
+    /**
+     * @brief The A* algorithm
+     * @param grid
+     * @param src
+     * @param dest
+     */
     void astarSearch(int grid[][Environment::BOARD_WIDTH], Pair src, Pair dest);
+
+    /**
+     * @brief Moves the enemies using the A* algorithm
+     */
     void move();
 };
 

@@ -39,6 +39,8 @@ export(first.depends)
 export(copydata.commands)
 QMAKE_EXTRA_TARGETS += first copydata
 
+RC_ICONS = icon.ico
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
