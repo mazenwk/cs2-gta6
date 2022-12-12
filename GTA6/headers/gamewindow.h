@@ -28,6 +28,7 @@ public:
     void start();
 
 private:
+    bool extremeMode = false;
     /**
      * @brief The main menu scene
      */
@@ -37,6 +38,8 @@ private:
      * @brief The levels selection scene
      */
     QGraphicsScene* levelSelectionScene {};
+
+    QGraphicsScene* optionsScene {};
 
     /**
      * @brief The available levels
@@ -81,6 +84,10 @@ private slots:
      * Quits the game
      */
     void btnQuit();
+
+    void btnOptions();
+
+    void btnExtremeMode();
 
     /**
      * @brief Back button.

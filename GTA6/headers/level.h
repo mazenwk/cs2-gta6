@@ -28,9 +28,9 @@ public:
      * Creates a new level with its own scene and entities
      * @param levelName
      */
-    Level(QString levelName,QList<Enemy*> enemies);
+    Level(QString levelName,QList<Enemy*> enemies, bool extremeMode = false);
 
-    Level(QString levelName);
+    Level(QString levelName, bool extremeMode = false);
     /**
      * @brief The scene for this level
      */
@@ -57,6 +57,8 @@ public:
 
 
 private:
+    bool extremeMode;
+
     /**
      * @brief The game board data
      */

@@ -8,7 +8,6 @@
 #include <QGraphicsScene>
 #include <QString>
 
-
 namespace Resources {
     // resources directory is copied to the build folder using qmake commands
     // WINDOWS: QDir::currentPath() + "\\resources\\XXX
@@ -102,6 +101,7 @@ namespace Environment {
 
 class UI {
 public:
+
     /**
      * @brief Draws a panel with the given properties on top of a scene
      * @param scene The scene to draw the panel in

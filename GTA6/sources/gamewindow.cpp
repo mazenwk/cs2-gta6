@@ -19,6 +19,8 @@ GameWindow::GameWindow(QString gameTitle)
     mainMenuScene = new QGraphicsScene();
     mainMenuScene->setSceneRect(0 , 0, Environment::SCREEN_WIDTH, Environment::SCREEN_HEIGHT);
     this->setScene(mainMenuScene);
+
+    extremeMode = false;
 }
 
 void GameWindow::start()
@@ -58,7 +60,7 @@ void GameWindow::loadMainMenu()
     Button* optionsButton = new Button(QString("Options"));
     optionsButton->setPos(100, 300);
     mainMenuScene->addItem(optionsButton);
-    //QObject::connect(optionsButton, SIGNAL(clicked()), this, SLOT(quit()), Qt::QueuedConnection);
+    QObject::connect(optionsButton, SIGNAL(clicked()), this, SLOT(btnOptions()), Qt::QueuedConnection);
 
     Button* quitButton = new Button(QString("Quit"));
     quitButton->setPos(100, 400);
@@ -168,6 +170,40 @@ void GameWindow::btnPlay()
     // ----------------------------------------------------------------
 }
 
+void GameWindow::btnOptions() {
+    // -------------------------- Set The Scene--------------------------
+    optionsScene = new QGraphicsScene();
+    optionsScene->setSceneRect(0 , 0, Environment::SCREEN_WIDTH, Environment::SCREEN_HEIGHT);
+    this->setScene(optionsScene);
+    // ----------------------------------------------------------------
+
+    // -------------------------- Load Cover --------------------------
+    QPixmap levelsCover(Resources::UI_DIR + "main-menu-cover.png");
+    levelsCover = levelsCover.scaledToWidth(Environment::SCREEN_WIDTH);
+    levelsCover = levelsCover.scaledToHeight(Environment::SCREEN_HEIGHT);
+
+    optionsScene->addItem(new QGraphicsPixmapItem(levelsCover));
+    // ----------------------------------------------------------------
+
+    // -------------------------- Add Back Button --------------------------
+    Button* backButton = new Button("Back");
+    backButton->setPos(25, 75);
+    optionsScene->addItem(backButton);
+    QObject::connect(backButton, SIGNAL(clicked()), this, SLOT(btnBack()), Qt::QueuedConnection);
+    // ----------------------------------------------------------------
+
+    // -------------------------- Add Option --------------------------
+    Button* extremeModeButton = new Button("Toggle Extreme Mode");
+    extremeModeButton->setPos(100, 200);
+    optionsScene->addItem(extremeModeButton);
+    QObject::connect(extremeModeButton, SIGNAL(clicked()), this, SLOT(btnExtremeMode()), Qt::QueuedConnection);
+    // ----------------------------------------------------------------
+}
+
+void GameWindow::btnExtremeMode() {
+    extremeMode = !extremeMode;
+}
+
 void GameWindow::btnQuit()
 {
     //scene->clear();
@@ -181,7 +217,7 @@ void GameWindow::btnBack()
 
 void GameWindow::btnLoadLevel(QString levelName)
 {
-    currentLevel = new Level((levelName == "" ? levelSelectionScene->focusItem()->data(0).toString() : levelName));
+    currentLevel = new Level((levelName == "" ? levelSelectionScene->focusItem()->data(0).toString() : levelName), extremeMode);
     this->setScene(currentLevel->levelScene);
     currentLevel->watch();
     displayGameOverWindow();
